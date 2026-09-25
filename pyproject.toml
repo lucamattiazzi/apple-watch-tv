@@ -1,0 +1,13 @@
+[project]
+name = "font-tv-assets"
+version = "0.1.0"
+description = "Original animation assets and rendering checks for Font TV"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fonttools==4.60.2",
+    "pillow==11.3.0",
+]
+
+[dependency-groups]
+dev = ["uharfbuzz==0.51.7"]

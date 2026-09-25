@@ -1,0 +1,53 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Local distribution archives, build output and signing logs
+distribution/
+
+# Local editor and generated previews
+.DS_Store
+xcuserdata/
+out/default/contact.png
+
+# Private signing, credentials and device/account exports
+*.local.xcconfig
+ExportOptions.plist
+.env
+.env.*
+*.p8
+*.p12
+*.pfx
+*.pem
+*.key
+*.cer
+*.mobileprovision
+*.provisionprofile
+*.keychain*
+AuthKey_*
+secrets/
+private/
+*.log
+*.xcarchive/
+*.ipa
+*.dSYM/
+DerivedData/
+*.xcresult/
+*.xcuserstate
+
+# Local release administration and non-build material
+/DISTRIBUTION.md
+/RELEASE_NOTES.md
+/store/
+/tests/
+/COMPANION.md
+/out/**
+!/out/default/
+!/out/default/README.md
