@@ -25,7 +25,6 @@
 		BB00000000000000000025 /* ImportedVideo.swift */ = {isa = PBXBuildFile; fileRef = FF00000000000000000018; };
 		BB00000000000000000026 /* VideoTransfer.swift */ = {isa = PBXBuildFile; fileRef = FF00000000000000000019; };
 		BB00000000000000000027 /* VideoTransfer.swift */ = {isa = PBXBuildFile; fileRef = FF00000000000000000019; };
-		BB00000000000000000028 /* VideoFontEncoder.swift */ = {isa = PBXBuildFile; fileRef = FF0000000000000000001A; };
 		BB00000000000000000029 /* VideoConverter.swift */ = {isa = PBXBuildFile; fileRef = FF0000000000000000001B; };
 		BB0000000000000000002A /* PhoneApp.swift */ = {isa = PBXBuildFile; fileRef = FF0000000000000000001C; };
 		BB0000000000000000002B /* PersonalVideoWidget.swift */ = {isa = PBXBuildFile; fileRef = FF0000000000000000001D; };
@@ -100,7 +99,6 @@
 		FF00000000000000000017 /* DefaultBottom.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultBottom.ttf; sourceTree = "<group>"; };
 		FF00000000000000000018 /* ImportedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportedVideo.swift; sourceTree = "<group>"; };
 		FF00000000000000000019 /* VideoTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTransfer.swift; sourceTree = "<group>"; };
-		FF0000000000000000001A /* VideoFontEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFontEncoder.swift; sourceTree = "<group>"; };
 		FF0000000000000000001B /* VideoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoConverter.swift; sourceTree = "<group>"; };
 		FF0000000000000000001C /* PhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneApp.swift; sourceTree = "<group>"; };
 		FF0000000000000000001D /* PersonalVideoWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalVideoWidget.swift; sourceTree = "<group>"; };
@@ -194,7 +192,7 @@
 				FF0000000000000000001E /* PhoneAssets.xcassets */,
 				FF0000000000000000001C /* PhoneApp.swift */,
 				FF0000000000000000001B /* VideoConverter.swift */,
-				FF0000000000000000001A /* VideoFontEncoder.swift */,); path = PhoneApp; sourceTree = "<group>"; };
+				); path = PhoneApp; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -354,7 +352,6 @@
 				BB0000000000000000002D /* Companion */,
 				BB0000000000000000002A /* Companion */,
 				BB00000000000000000029 /* Companion */,
-				BB00000000000000000028 /* Companion */,
 				BB00000000000000000027 /* Companion */,
 				BB00000000000000000025 /* Companion */,
 ); runOnlyForDeploymentPostprocessing = 0; };
@@ -429,7 +426,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "WatchTV Watch App/Info.plist";
@@ -452,7 +449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "WatchTV Watch App/Info.plist";
@@ -473,7 +470,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Shared/VideoSharing.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WatchTVWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -494,7 +491,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Shared/VideoSharing.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WatchTVWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -522,7 +519,7 @@
                 WATCHOS_DEPLOYMENT_TARGET = 10.0;
 
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Font TV";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -549,7 +546,7 @@
                 WATCHOS_DEPLOYMENT_TARGET = 10.0;
 
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Font TV";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;

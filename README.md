@@ -16,7 +16,16 @@ cache è pronta; non esiste una libreria di video salvati.
 
 Tre widget mostrano lo stesso contenuto: **Video intero**, **Video alto** e
 **Video basso**. Per le due metà usare i due spazi rettangolari di Modulare Duo.
-I video vengono riprodotti in scala di grigi, senza audio, a 1 fps.
+Prima di importare un video, la companion iPhone offre due stili:
+
+- **Seiko**: 128×72 pixel, 8 livelli di grigio, per un aspetto rétro.
+- **Colore**: 256×144 pixel sRGB, per più dettagli e colori.
+
+Entrambi durano 30 secondi, senza audio, a 1 fps. I video più brevi si ripetono;
+le proporzioni vengono conservate con eventuali bande nere. La scelta vale
+per l’importazione successiva. Per cambiare stile al video corrente occorre
+importare nuovamente l’originale. I colori delle complicazioni dipendono anche
+dalla modalità di rendering e dalle impostazioni del quadrante.
 
 App iPhone, app Watch e widget seguono le lingue preferite del dispositivo:
 italiano e inglese sono inclusi, con inglese come lingua di riserva.
@@ -53,7 +62,7 @@ entitlement e `ImportedVideo.swift`.
 
 Archivi, log, credenziali, profili di provisioning, impostazioni personali di
 firma e documenti operativi dello Store restano locali. La sorgente corrente
-include la correzione del caricamento di Orbita successiva alla build 19;
+include la correzione di Orbita e le due modalità di conversione successive alla build 19;
 non è una copia byte per byte del pacchetto inviato allo Store.
 
 ## Asset
@@ -68,8 +77,10 @@ Il primo comando di generazione richiede `ffmpeg` e produce il video di
 riferimento `out/default/orbita.mp4`, un’anteprima e i tre font incorporati.
 Il secondo genera le maschere fisse dei widget. `make_icon.py` rigenera l’icona.
 
-I widget personali utilizzano 30 PNG preparate dal Watch e maschere a font
-fisso. I timer sfalsati mostrano un solo frame per secondo. Prima del primo
+Le nuove importazioni contengono 30 PNG convertite direttamente sull’iPhone,
+senza un font specifico per il video. Il Watch le salva nella cache condivisa;
+i widget le mostrano con maschere a font fisso. I pacchetti precedenti con
+font e Orbita restano supportati e vengono rasterizzati sul Watch. I timer sfalsati mostrano un solo frame per secondo. Prima del primo
 avvio dell’app, i widget possono mostrare direttamente il font incorporato
 con Orbita. Il font di un video importato non entra nella vista del widget.
 

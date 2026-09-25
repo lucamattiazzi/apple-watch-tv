@@ -1,6 +1,40 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "128 × 72 · 8 shades of gray, inspired by the Seiko TV Watch.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "128 × 72 · 8 shades of gray, inspired by the Seiko TV Watch."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "128 × 72 · 8 livelli di grigio, ispirati al Seiko TV Watch."
+          }
+        }
+      }
+    },
+    "256 × 144 · More detail and full color. Watch face settings may change the colors.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "256 × 144 · More detail and full color. Watch face settings may change the colors."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "256 × 144 · Più dettagli e colori. Le impostazioni del quadrante possono modificare i colori."
+          }
+        }
+      }
+    },
     "30 frames ready for widgets.": {
       "extractionState": "manual",
       "localizations": {
@@ -52,6 +86,23 @@
         }
       }
     },
+    "Applies to the next video you import.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applies to the next video you import."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si applica al prossimo video che importi."
+          }
+        }
+      }
+    },
     "Choose a video in the iPhone app.": {
       "extractionState": "manual",
       "localizations": {
@@ -86,19 +137,36 @@
         }
       }
     },
-    "Choose a video. The first 30 seconds become a black-and-white loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.": {
+    "Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose a video. The first 30 seconds become a black-and-white loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved."
+            "value": "Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scegli un video. I primi 30 secondi diventano un loop in bianco e nero a 1 fps. I video più brevi vengono ripetuti; le proporzioni sono conservate."
+            "value": "Scegli un video. I primi 30 secondi diventano un loop a 1 fps. I video più brevi si ripetono; le proporzioni vengono mantenute."
+          }
+        }
+      }
+    },
+    "Color": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colore"
           }
         }
       }
@@ -116,6 +184,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Connessione al Watch…"
+          }
+        }
+      }
+    },
+    "Conversion style": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversion style"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stile di conversione"
           }
         }
       }
@@ -524,6 +609,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ripristina Orbita"
+          }
+        }
+      }
+    },
+    "Seiko": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seiko"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seiko"
           }
         }
       }

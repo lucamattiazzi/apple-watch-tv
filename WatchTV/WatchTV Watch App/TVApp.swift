@@ -10,15 +10,12 @@ struct TVApp: App {
 
 struct ContentView: View {
     @EnvironmentObject private var transfer: VideoTransfer
-    @State private var anchor = Calendar.current.startOfDay(for: .now)
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                if let video = transfer.receivedVideo,
-                   let store = ImportedVideoStore.shared,
-                   let font = try? store.registeredFont(video, part: "Full") {
-                    VideoView(text: Text(anchor, style: .timer), customFont: font)
+                if let video = transfer.receivedVideo {
+                    AppVideoPreview(video: video)
                         .aspectRatio(16 / 9, contentMode: .fit)
                     Text(video.title).font(.headline)
                     Text("On your watch face, choose Full video, or Top video and Bottom video on Modular Duo.")

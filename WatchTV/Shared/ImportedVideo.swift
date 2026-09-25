@@ -13,6 +13,7 @@ struct ImportedVideo: Codable {
     let id: UUID
     let title: String
     let fonts: [VideoFontAsset]
+    var frames: [Data]? = nil
 
     enum Failure: LocalizedError {
         case invalidPackage, unavailableStorage, invalidFont
@@ -53,7 +54,33 @@ struct ImportedVideo: Codable {
         return font
     }
 
+    static func pngData(_ image: CGImage) throws -> Data {
+        let png = NSMutableData()
+        guard let destination = CGImageDestinationCreateWithData(png, "public.png" as CFString, 1, nil) else {
+            throw Failure.invalidPackage
+        }
+        CGImageDestinationAddImage(destination, image, nil)
+        guard CGImageDestinationFinalize(destination) else { throw Failure.invalidPackage }
+        return png as Data
+    }
+    static func decodeFrame(_ data: Data) throws -> CGImage {
+        guard data.count <= 256_000,
+              let source = CGImageSourceCreateWithData(data as CFData, nil),
+              CGImageSourceGetType(source) as String? == "public.png",
+              CGImageSourceGetCount(source) == 1,
+              let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
+              let width = properties[kCGImagePropertyPixelWidth] as? Int,
+              let height = properties[kCGImagePropertyPixelHeight] as? Int,
+              [(128, 72), (192, 108), (256, 144)].contains(where: { $0 == width && $1 == height }),
+              let image = CGImageSourceCreateImageAtIndex(source, 0,
+                [kCGImageSourceShouldCacheImmediately: true] as CFDictionary) else { throw Failure.invalidPackage }
+        return image
+    }
     func renderWidgetFrames() throws -> [CGImage] {
+        if version == 2 {
+            guard let frames, frames.count == 30 else { throw Failure.invalidPackage }
+            return try frames.map(Self.decodeFrame)
+        }
         let font = try font(part: "Full", size: 128)
         return try (0..<30).map { try Self.rasterFrame(font: font, height: 108, second: $0) }
     }
@@ -74,7 +101,19 @@ struct ImportedVideo: Codable {
     }
 
     func validate() throws {
-        guard version == 1, title.count <= 200, fonts.count == 3,
+        guard title.count <= 200 else { throw Failure.invalidPackage }
+        if version == 2 {
+            guard fonts.isEmpty, let frames, frames.count == 30 else { throw Failure.invalidPackage }
+            var dimensions: CGSize?
+            for data in frames {
+                let image = try Self.decodeFrame(data)
+                let size = CGSize(width: image.width, height: image.height)
+                if let dimensions, size != dimensions { throw Failure.invalidPackage }
+                dimensions = size
+            }
+            return
+        }
+        guard version == 1, frames == nil, fonts.count == 3,
               Set(fonts.map(\.part)) == Set(["Full", "Top", "Bottom"]) else {
             throw Failure.invalidPackage
         }
@@ -136,15 +175,9 @@ struct ImportedVideoStore {
             return
         }
         try FileManager.default.createDirectory(at: framesDirectory, withIntermediateDirectories: true)
-        let frames = try video.renderWidgetFrames()
-        for (index, image) in frames.enumerated() {
-            let png = NSMutableData()
-            guard let destination = CGImageDestinationCreateWithData(png, "public.png" as CFString, 1, nil) else {
-                throw ImportedVideo.Failure.invalidFont
-            }
-            CGImageDestinationAddImage(destination, image, nil)
-            guard CGImageDestinationFinalize(destination) else { throw ImportedVideo.Failure.invalidFont }
-            try (png as Data).write(to: urls[index], options: .atomic)
+        let frames = try video.frames ?? video.renderWidgetFrames().map(ImportedVideo.pngData)
+        for (index, png) in frames.enumerated() {
+            try png.write(to: urls[index], options: .atomic)
         }
         // Publish only after every frame is ready; legacy metadata remains readable.
         let metadata = WidgetVideoMetadata(id: video.id, title: video.title, frameCount: 30)
@@ -158,13 +191,11 @@ struct ImportedVideoStore {
         let directory = root.appendingPathComponent(metadata.id.uuidString).appendingPathComponent("frames")
         return try (0..<30).map { index in
             let url = directory.appendingPathComponent(String(format: "%02d.png", index))
-            guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
-                  let image = CGImageSourceCreateImageAtIndex(source, 0,
-                    [kCGImageSourceShouldCacheImmediately: true] as CFDictionary),
-                  image.width == 192, image.height == 108 else { throw ImportedVideo.Failure.invalidPackage }
+            let image = try ImportedVideo.decodeFrame(Data(contentsOf: url))
             if part == "Full" { return image }
-            guard let half = image.cropping(to: CGRect(x: 0, y: part == "Top" ? 0 : 54,
-                                                       width: 192, height: 54)) else {
+            let halfHeight = image.height / 2
+            guard let half = image.cropping(to: CGRect(x: 0, y: part == "Top" ? 0 : halfHeight,
+                                                       width: image.width, height: halfHeight)) else {
                 throw ImportedVideo.Failure.invalidPackage
             }
             return half
@@ -184,7 +215,7 @@ struct ImportedVideoStore {
         for font in video.fonts {
             try font.data.write(to: directory.appendingPathComponent(font.part + ".ttf"), options: .atomic)
         }
-        // Publish only once all three files exist and can be registered.
+        // Publish only once the package has been validated and any legacy fonts are ready.
         for font in video.fonts { _ = try registeredFont(video, part: font.part) }
         try video.encoded().write(to: root.appendingPathComponent("current.video"), options: .atomic)
         // Keep the previous widget cache only until the replacement cache is ready.

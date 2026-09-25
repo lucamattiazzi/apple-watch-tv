@@ -1,5 +1,4 @@
 import SwiftUI
-import CoreText
 import PhotosUI
 import UniformTypeIdentifiers
 import CoreTransferable
@@ -21,25 +20,22 @@ final class PhoneVideoModel: ObservableObject {
     @Published var video: ImportedVideo?
     @Published var busy = false
     @Published var error: String?
-    @Published var previewFont: CTFont?
     let store = ImportedVideoStore(root: FileManager.default.urls(for: .applicationSupportDirectory,
         in: .userDomainMask)[0].appendingPathComponent("PhoneVideos"))
 
     init() {
         do {
             video = try store.loadInitialVideo()
-            if let video { previewFont = try store.registeredFont(video, part: "Full") }
         } catch { self.error = error.localizedDescription }
     }
-    func convert(_ url: URL, title: String) async {
+    func convert(_ url: URL, title: String, mode: VideoConversionMode) async {
         busy = true; error = nil
         defer { busy = false; try? FileManager.default.removeItem(at: url) }
         do {
             let imported = try await Task.detached(priority: .userInitiated) {
-                try await VideoConverter.convert(url: url, title: title)
+                try await VideoConverter.convert(url: url, title: title, mode: mode)
             }.value
             try store.install(imported)
-            previewFont = try store.registeredFont(imported, part: "Full")
             video = imported
         } catch { self.error = error.localizedDescription }
     }
@@ -56,7 +52,7 @@ struct PhoneContentView: View {
     @StateObject private var model = PhoneVideoModel()
     @State private var selection: PhotosPickerItem?
     @State private var showFiles = false
-    @State private var anchor = Calendar.current.startOfDay(for: .now)
+    @AppStorage("conversionMode") private var mode: VideoConversionMode = .seiko
 
     var body: some View {
         NavigationStack {
@@ -64,10 +60,28 @@ struct PhoneContentView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     Text("A video on your watch face")
                         .font(.largeTitle.bold())
-                    Text("Choose a video. The first 30 seconds become a black-and-white loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.")
+                    Text("Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.")
                         .foregroundStyle(.secondary)
                     Text("One video at a time: each new transfer replaces the video on your Watch.")
                         .font(.callout)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Conversion style").font(.headline)
+                        Picker("Conversion style", selection: $mode) {
+                            Text("Seiko").tag(VideoConversionMode.seiko)
+                            Text("Color").tag(VideoConversionMode.color)
+                        }
+                        .pickerStyle(.segmented)
+                        .disabled(model.busy)
+                        if mode == .seiko {
+                            Text("128 × 72 · 8 shades of gray, inspired by the Seiko TV Watch.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        } else {
+                            Text("256 × 144 · More detail and full color. Watch face settings may change the colors.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                        Text("Applies to the next video you import.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
                     HStack {
                         PhotosPicker(selection: $selection, matching: .videos) {
                             Label("From Photos", systemImage: "photo.on.rectangle")
@@ -78,8 +92,8 @@ struct PhoneContentView: View {
                     .disabled(model.busy)
                     if model.busy { ProgressView("Preparing video…") }
                     if let error = model.error { Text(error).foregroundStyle(.red) }
-                    if let video = model.video, let font = model.previewFont {
-                        VideoView(text: Text(anchor, style: .timer), customFont: font)
+                    if let video = model.video {
+                        AppVideoPreview(video: video)
                             .aspectRatio(16 / 9, contentMode: .fit)
                         Text(video.title).font(.headline)
                         Button {
@@ -108,12 +122,13 @@ struct PhoneContentView: View {
         .onChange(of: selection) { _, item in
             guard let item else { return }
             model.busy = true
+            let selectedMode = mode
             Task {
                 do {
                     guard let movie = try await item.loadTransferable(type: PickedMovie.self) else {
                         throw VideoConverter.Failure.noVideo
                     }
-                    await model.convert(movie.url, title: String(localized: "Video from Photos"))
+                    await model.convert(movie.url, title: String(localized: "Video from Photos"), mode: selectedMode)
                 } catch { model.error = error.localizedDescription; model.busy = false }
                 selection = nil
             }
@@ -127,7 +142,8 @@ struct PhoneContentView: View {
                     .appendingPathExtension(url.pathExtension)
                 try FileManager.default.copyItem(at: url, to: copy)
                 model.busy = true
-                Task { await model.convert(copy, title: url.deletingPathExtension().lastPathComponent) }
+                let selectedMode = mode
+                Task { await model.convert(copy, title: url.deletingPathExtension().lastPathComponent, mode: selectedMode) }
             } catch { model.error = error.localizedDescription }
         }
     }

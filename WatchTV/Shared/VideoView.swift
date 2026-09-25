@@ -42,3 +42,40 @@ struct VideoView: View {
         }
     }
 }
+
+/// In-app playback uses the same decoded images as the widget cache.
+struct AppVideoPreview: View {
+    let video: ImportedVideo
+    @State private var frames: [CGImage] = []
+    @State private var error: String?
+
+    var body: some View {
+        Group {
+            if frames.count == 30 {
+                TimelineView(.periodic(from: .now, by: 1)) { context in
+                    let second = Int(context.date.timeIntervalSince1970) % 30
+                    Image(decorative: frames[second], scale: 1)
+                        .resizable().interpolation(.none).scaledToFit()
+                        .accessibilityLabel("30-second video")
+                }
+            } else if let error {
+                Text(error).font(.caption)
+            } else {
+                ProgressView()
+            }
+        }
+        .background(.black)
+        .task(id: video.id) {
+            frames = []
+            error = nil
+            let result = await Task.detached(priority: .userInitiated) {
+                Result { try video.renderWidgetFrames() }
+            }.value
+            guard !Task.isCancelled else { return }
+            switch result {
+            case .success(let images): frames = images
+            case .failure(let failure): error = failure.localizedDescription
+            }
+        }
+    }
+}
