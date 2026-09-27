@@ -1,6 +1,6 @@
 # Orbita
 
-Animazione originale di Font TV: un pianeta, un satellite in orbita e un
+Animazione originale di TV Watch: un pianeta, un satellite in orbita e un
 paesaggio geometrico. Durata 30 secondi, 1 fps, sei livelli di grigio, senza audio.
 
 Tutte le immagini sono generate da `scripts/generate_default_video.py` usando
@@ -13,5 +13,5 @@ L’animazione e i relativi fotogrammi sono resi disponibili con
 Questa dedica riguarda il contenuto dell’animazione, non modifica la licenza
 delle librerie usate per generarlo.
 
-Il riferimento al Seiko TV Watch è un’ispirazione del prodotto Font TV;
+Il riferimento al Seiko TV Watch è un’ispirazione del prodotto TV Watch;
 l’animazione non usa loghi, fotografie o materiale promozionale Seiko.

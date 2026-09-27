@@ -1,4 +1,4 @@
-# Font TV
+# TV Watch
 
 Un video sul quadrante dell’Apple Watch, ispirato al
 [Seiko TV Watch del 1982](https://museum.seiko.co.jp/en/collections/watch_latestage/collect040/).
@@ -30,7 +30,7 @@ dalla modalità di rendering e dalle impostazioni del quadrante.
 App iPhone, app Watch e widget seguono le lingue preferite del dispositivo:
 italiano e inglese sono inclusi, con inglese come lingua di riserva.
 Le traduzioni, comprese le etichette VoiceOver e i messaggi di stato, sono in
-`WatchTV/Shared/Localizable.xcstrings`. Font TV, Orbita e i nomi dei file
+`WatchTV/Shared/Localizable.xcstrings`. TV Watch, Orbita e i nomi dei file
 personali non vengono tradotti.
 
 ## Sviluppo

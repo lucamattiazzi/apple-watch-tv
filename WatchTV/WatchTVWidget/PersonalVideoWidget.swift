@@ -6,7 +6,7 @@ private struct PersonalVideoEntry: TimelineEntry {
     let date: Date
     var frames: [CGImage] = []
     var usesBundledVideo = false
-    var message = String(localized: "Send a video from Font TV on your iPhone")
+    var message = String(localized: "Send a video from TV Watch on your iPhone")
     var anchor: Date { Calendar.current.startOfDay(for: date).addingTimeInterval(-30) }
 }
 
@@ -28,7 +28,7 @@ private struct PersonalVideoProvider: TimelineProvider {
                 return entry
             }
             guard metadata.frameCount == 30 else {
-                entry.message = String(localized: "Open Font TV on your Watch to prepare the frames")
+                entry.message = String(localized: "Open TV Watch on your Watch to prepare the frames")
                 return entry
             }
             entry.frames = try store.widgetFrames(metadata, part: part.rawValue)
@@ -72,16 +72,16 @@ private func personalConfiguration(kind: String, title: LocalizedStringKey, part
 
 struct PersonalVideoWidget: Widget {
     var body: some WidgetConfiguration {
-        personalConfiguration(kind: "TVPersonalFull", title: "Font TV · Full video", part: .full)
+        personalConfiguration(kind: "TVPersonalFull", title: "TV Watch · Full video", part: .full)
     }
 }
 struct PersonalVideoTopWidget: Widget {
     var body: some WidgetConfiguration {
-        personalConfiguration(kind: "TVPersonalTop", title: "Font TV · Top video", part: .top)
+        personalConfiguration(kind: "TVPersonalTop", title: "TV Watch · Top video", part: .top)
     }
 }
 struct PersonalVideoBottomWidget: Widget {
     var body: some WidgetConfiguration {
-        personalConfiguration(kind: "TVPersonalBottom", title: "Font TV · Bottom video", part: .bottom)
+        personalConfiguration(kind: "TVPersonalBottom", title: "TV Watch · Bottom video", part: .bottom)
     }
 }

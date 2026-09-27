@@ -35,7 +35,7 @@ struct ContentView: View {
                     Text("Orbita · included original animation, 30 seconds, no audio.")
                         .font(.caption2).foregroundStyle(.secondary)
                 }
-                Text("Send a video from Font TV on your iPhone to replace the current one.")
+                Text("Send a video from TV Watch on your iPhone to replace the current one.")
                     .font(.footnote)
                 Text("Inspired by the 1982 Seiko TV Watch.")
                     .font(.caption2).foregroundStyle(.secondary)

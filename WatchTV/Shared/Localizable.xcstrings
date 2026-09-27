@@ -222,70 +222,70 @@
         }
       }
     },
-    "Font TV": {
+    "TV Watch": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV"
+            "value": "TV Watch"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV"
+            "value": "TV Watch"
           }
         }
       }
     },
-    "Font TV · Bottom video": {
+    "TV Watch · Bottom video": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV · Bottom video"
+            "value": "TV Watch · Bottom video"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV · Video basso"
+            "value": "TV Watch · Video basso"
           }
         }
       }
     },
-    "Font TV · Full video": {
+    "TV Watch · Full video": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV · Full video"
+            "value": "TV Watch · Full video"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV · Video intero"
+            "value": "TV Watch · Video intero"
           }
         }
       }
     },
-    "Font TV · Top video": {
+    "TV Watch · Top video": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV · Top video"
+            "value": "TV Watch · Top video"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Font TV · Video alto"
+            "value": "TV Watch · Video alto"
           }
         }
       }
@@ -443,36 +443,36 @@
         }
       }
     },
-    "Open Font TV on your Watch to prepare the frames": {
+    "Open TV Watch on your Watch to prepare the frames": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open Font TV on your Watch to prepare the frames"
+            "value": "Open TV Watch on your Watch to prepare the frames"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apri Font TV sul Watch per preparare i fotogrammi"
+            "value": "Apri TV Watch sul Watch per preparare i fotogrammi"
           }
         }
       }
     },
-    "Open Font TV on your paired Watch, then try again.": {
+    "Open TV Watch on your paired Watch, then try again.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open Font TV on your paired Watch, then try again."
+            "value": "Open TV Watch on your paired Watch, then try again."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apri Font TV sul Watch abbinato, poi riprova."
+            "value": "Apri TV Watch sul Watch abbinato, poi riprova."
           }
         }
       }
@@ -562,19 +562,19 @@
         }
       }
     },
-    "Received on your Watch. Open Font TV on your Watch to see it.": {
+    "Received on your Watch. Open TV Watch on your Watch to see it.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Received on your Watch. Open Font TV on your Watch to see it."
+            "value": "Received on your Watch. Open TV Watch on your Watch to see it."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ricevuto sul Watch. Apri Font TV sull’orologio per vederlo."
+            "value": "Ricevuto sul Watch. Apri TV Watch sull’orologio per vederlo."
           }
         }
       }
@@ -630,36 +630,36 @@
         }
       }
     },
-    "Send a video from Font TV on your iPhone": {
+    "Send a video from TV Watch on your iPhone": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Send a video from Font TV on your iPhone"
+            "value": "Send a video from TV Watch on your iPhone"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invia un video da Font TV su iPhone"
+            "value": "Invia un video da TV Watch su iPhone"
           }
         }
       }
     },
-    "Send a video from Font TV on your iPhone to replace the current one.": {
+    "Send a video from TV Watch on your iPhone to replace the current one.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Send a video from Font TV on your iPhone to replace the current one."
+            "value": "Send a video from TV Watch on your iPhone to replace the current one."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invia un video da Font TV su iPhone per sostituire quello attuale."
+            "value": "Invia un video da TV Watch su iPhone per sostituire quello attuale."
           }
         }
       }

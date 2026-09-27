@@ -73,7 +73,7 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
     func send(_ video: ImportedVideo) throws {
         let session = WCSession.default
         guard session.activationState == .activated, session.isPaired, session.isWatchAppInstalled else {
-            status = String(localized: "Open Font TV on your paired Watch, then try again.")
+            status = String(localized: "Open TV Watch on your paired Watch, then try again.")
             return
         }
         let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
@@ -150,7 +150,7 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
         if let id = context["receivedID"] as? String, id == pendingID {
             receivedID = id
             UserDefaults.standard.set(id, forKey: "receivedVideoID")
-            status = String(localized: "Received on your Watch. Open Font TV on your Watch to see it.")
+            status = String(localized: "Received on your Watch. Open TV Watch on your Watch to see it.")
         } else if let id = context["failedID"] as? String, id == pendingID {
             status = context["failure"] as? String ?? String(localized: "Your Watch could not import the video.")
         }

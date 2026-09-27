@@ -116,7 +116,7 @@ struct PhoneContentView: View {
                 }
                 .padding(24)
             }
-            .navigationTitle("Font TV")
+            .navigationTitle("TV Watch")
             .navigationBarTitleDisplayMode(.inline)
         }
         .onChange(of: selection) { _, item in
