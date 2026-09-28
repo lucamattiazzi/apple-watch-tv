@@ -70,7 +70,6 @@ non è una copia byte per byte del pacchetto inviato allo Store.
 ```sh
 uv sync --dev
 uv run python scripts/generate_default_video.py
-uv run python scripts/generate_gate_fonts.py
 ```
 
 Il primo comando di generazione richiede `ffmpeg` e produce il video di
@@ -87,3 +86,9 @@ con Orbita. Il font di un video importato non entra nella vista del widget.
 Il ridisegno in Always-On e i ricaricamenti restano controllati da watchOS.
 Non sono presenti streaming, server, widget diagnostici o sonde di debug.
 Gli archivi di distribuzione e i backup locali sono esclusi da Git.
+
+## Shared complication renderer
+
+Imported video complications use [1fps-widget](https://github.com/lucamattiazzi/1fps-widget), pinned to version 0.1.0 through Swift Package Manager. Open the Xcode project and let Xcode resolve packages; no local checkout of the library is required. The `VideoWidgetLibrary` product is linked to the widget extension and supplies its mask fonts in its own resource bundle.
+
+The provider loads full frames and lets the library crop the top/bottom variants. Orbita's bundled-font fallback, video conversion, storage and transfer remain app-owned. The extracted library needs physical-Watch verification of cold start, full/top/bottom rendering, video replacement and Always-On behavior before the next release.

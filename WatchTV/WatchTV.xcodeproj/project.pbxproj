@@ -33,14 +33,10 @@
 		BB0000000000000000002E /* DefaultFull.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000015; };
 		BB0000000000000000002F /* DefaultTop.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000016; };
 		BB00000000000000000030 /* DefaultBottom.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000017; };
-		BB00000000000000000031 /* PNGTimerMaskView.swift */ = {isa = PBXBuildFile; fileRef = FF0000000000000000001F; };
-		BB00000000000000000036 /* FontTVGate.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000023; };
-		BB00000000000000000037 /* FontTVGate.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000023; };
-		BB00000000000000000038 /* FontTVGateHalf.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000024; };
-		BB00000000000000000039 /* FontTVGateHalf.ttf */ = {isa = PBXBuildFile; fileRef = FF00000000000000000024; };
 		BB00000000000000000040 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF00000000000000000025 /* Localizable.xcstrings */; };
 		BB00000000000000000041 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF00000000000000000025 /* Localizable.xcstrings */; };
 		BB00000000000000000042 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FF00000000000000000025 /* Localizable.xcstrings */; };
+		AB1000000000000000000001 /* VideoWidgetLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = AB1000000000000000000002 /* VideoWidgetLibrary */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,9 +99,6 @@
 		FF0000000000000000001C /* PhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneApp.swift; sourceTree = "<group>"; };
 		FF0000000000000000001D /* PersonalVideoWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalVideoWidget.swift; sourceTree = "<group>"; };
 		FF0000000000000000001E /* PhoneAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PhoneAssets.xcassets; sourceTree = "<group>"; };
-		FF0000000000000000001F /* PNGTimerMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNGTimerMaskView.swift; sourceTree = "<group>"; };
-		FF00000000000000000023 /* FontTVGate.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontTVGate.ttf; sourceTree = "<group>"; };
-		FF00000000000000000024 /* FontTVGateHalf.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontTVGateHalf.ttf; sourceTree = "<group>"; };
 		FF00000000000000000025 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1000000000000000000001 /* VideoWidgetLibrary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,9 +158,6 @@
 			isa = PBXGroup;
 			children = (
 				FF00000000000000000025 /* Localizable.xcstrings */,
-				FF00000000000000000024 /* FontTVGateHalf.ttf */,
-				FF00000000000000000023 /* FontTVGate.ttf */,
-				FF0000000000000000001F /* PNGTimerMaskView.swift */,
 
 				FF00000000000000000019 /* VideoTransfer.swift */,
 				FF00000000000000000018 /* ImportedVideo.swift */,
@@ -228,6 +219,7 @@
 			dependencies = (
 			);
 			name = WatchTVWidget;
+			packageProductDependencies = (AB1000000000000000000002 /* VideoWidgetLibrary */, );
 			productName = WatchTVWidget;
 			productReference = FF00000000000000000002 /* WatchTVWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -272,6 +264,7 @@
 			);
 			mainGroup = GG00000000000000000001;
 			productRefGroup = GG00000000000000000005 /* Products */;
+			packageReferences = (AB1000000000000000000003 /* 1fps-widget */, );
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -288,8 +281,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB00000000000000000040 /* Localizable.xcstrings in Resources */,
-				BB00000000000000000038 /* FontTVGateHalf.ttf */,
-				BB00000000000000000036 /* FontTVGate.ttf */,
 				BB00000000000000000021 /* DefaultBottom.ttf in Resources */,
 				BB0000000000000000001F /* DefaultTop.ttf in Resources */,
 				BB0000000000000000001D /* DefaultFull.ttf in Resources */,
@@ -302,8 +293,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB00000000000000000041 /* Localizable.xcstrings in Resources */,
-				BB00000000000000000039 /* FontTVGateHalf.ttf */,
-				BB00000000000000000037 /* FontTVGate.ttf */,
 				BB00000000000000000022 /* DefaultBottom.ttf in Resources */,
 				BB00000000000000000020 /* DefaultTop.ttf in Resources */,
 				BB0000000000000000001E /* DefaultFull.ttf in Resources */,
@@ -340,7 +329,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB00000000000000000031 /* PNGTimerMaskView.swift */,
 				BB0000000000000000002B /* Companion */,
 				BB00000000000000000024 /* Companion */,
 				BB0000000000000000001C /* VideoView.swift in Sources */,
@@ -369,6 +357,22 @@
 			targetProxy = CC00000000000000000002;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+        AB1000000000000000000003 /* 1fps-widget */ = {
+            isa = XCRemoteSwiftPackageReference;
+            repositoryURL = "https://github.com/lucamattiazzi/1fps-widget.git";
+            requirement = {kind = exactVersion; version = 0.1.0; };
+        };
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+        AB1000000000000000000002 /* VideoWidgetLibrary */ = {
+            isa = XCSwiftPackageProductDependency;
+            package = AB1000000000000000000003 /* 1fps-widget */;
+            productName = VideoWidgetLibrary;
+        };
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		CF00000000000000000001 /* Debug */ = {

@@ -1,0 +1,15 @@
+{
+  "originHash" : "4820e1d1c4cd48fc8c5ff2310c24fb90ad551e67a7658c114e06ad519c895a93",
+  "pins" : [
+    {
+      "identity" : "1fps-widget",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lucamattiazzi/1fps-widget.git",
+      "state" : {
+        "revision" : "95f78dfc47653c383a3996ddb6f638f56634e200",
+        "version" : "0.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}

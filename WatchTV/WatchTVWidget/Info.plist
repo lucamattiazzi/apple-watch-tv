@@ -31,8 +31,6 @@
 		<string>DefaultFull.ttf</string>
 		<string>DefaultTop.ttf</string>
 		<string>DefaultBottom.ttf</string>
-		<string>FontTVGate.ttf</string>
-		<string>FontTVGateHalf.ttf</string>
 	</array>
 	<key>NSExtension</key>
 	<dict>

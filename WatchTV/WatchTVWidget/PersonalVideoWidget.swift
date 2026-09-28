@@ -1,10 +1,10 @@
 import SwiftUI
 import WidgetKit
-import CoreGraphics
+import VideoWidgetLibrary
 
 private struct PersonalVideoEntry: TimelineEntry {
     let date: Date
-    var frames: [CGImage] = []
+    var video: WidgetVideo?
     var usesBundledVideo = false
     var message = String(localized: "Send a video from TV Watch on your iPhone")
     var anchor: Date { Calendar.current.startOfDay(for: date).addingTimeInterval(-30) }
@@ -31,7 +31,14 @@ private struct PersonalVideoProvider: TimelineProvider {
                 entry.message = String(localized: "Open TV Watch on your Watch to prepare the frames")
                 return entry
             }
-            entry.frames = try store.widgetFrames(metadata, part: part.rawValue)
+            let frames = try store.widgetFrames(metadata, part: "Full")
+            let videoPart: VideoWidgetLibrary.VideoPart
+            switch part {
+            case .full: videoPart = .full
+            case .top: videoPart = .top
+            case .bottom: videoPart = .bottom
+            }
+            entry.video = try WidgetVideo(frames: frames, part: videoPart)
         } catch { entry.message = error.localizedDescription }
         return entry
     }
@@ -49,10 +56,8 @@ private struct PersonalVideoEntryView: View {
     var body: some View {
         if entry.usesBundledVideo {
             VideoView(text: Text(entry.anchor, style: .timer), part: part)
-        } else if entry.frames.count == 30 {
-            PNGTimerMaskView(images: entry.frames, clocks: (0..<30).map {
-                Text(entry.anchor.addingTimeInterval(Double($0)), style: .timer)
-            }, fontName: part == .full ? "FontTVGate-Regular" : "FontTVGateHalf-Regular", rows: part.rows, alignment: part.alignment)
+        } else if let video = entry.video {
+            WidgetVideoView(video: video, referenceDate: entry.date)
         } else {
             Text(entry.message).font(.caption2).multilineTextAlignment(.center)
         }
