@@ -952,6 +952,312 @@
           }
         }
       }
+    },
+    "Five included animations, free forever. Unlock personal videos with a one-time purchase.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Five included animations, free forever. Unlock personal videos with a one-time purchase."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cinque animazioni incluse, gratis per sempre. Sblocca i video personali con un acquisto unico."
+          }
+        }
+      }
+    },
+    "Included videos": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Included videos"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video inclusi"
+          }
+        }
+      }
+    },
+    "Personal videos": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal videos"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video personali"
+          }
+        }
+      }
+    },
+    "Checking purchases…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking purchases…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifica degli acquisti…"
+          }
+        }
+      }
+    },
+    "Personal videos unlocked": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal videos unlocked"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video personali sbloccati"
+          }
+        }
+      }
+    },
+    "Convert and send as many of your own videos as you like. One purchase, no subscription.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Convert and send as many of your own videos as you like. One purchase, no subscription."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Converti e invia tutti i tuoi video che vuoi. Un solo acquisto, nessun abbonamento."
+          }
+        }
+      }
+    },
+    "Unlock personal videos · %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock personal videos · %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sblocca i video personali · %@"
+          }
+        }
+      }
+    },
+    "Retry purchases": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry purchases"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riprova gli acquisti"
+          }
+        }
+      }
+    },
+    "Restore purchases": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore purchases"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ripristina acquisti"
+          }
+        }
+      }
+    },
+    "Choose Orbita, Eclisse, Cometa, Pulsar or Vortice directly on your Watch. All five animations are included for free.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Orbita, Eclisse, Cometa, Pulsar or Vortice directly on your Watch. All five animations are included for free."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli Orbita, Eclisse, Cometa, Pulsar o Vortice direttamente sul Watch. Tutte e cinque le animazioni sono incluse gratis."
+          }
+        }
+      }
+    },
+    "Unlock personal videos before importing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock personal videos before importing."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sblocca i video personali prima di importarli."
+          }
+        }
+      }
+    },
+    "Could not verify earlier purchases. Try Restore purchases.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not verify earlier purchases. Try Restore purchases."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossibile verificare gli acquisti precedenti. Prova Ripristina acquisti."
+          }
+        }
+      }
+    },
+    "Purchases are currently unavailable. Included videos are always free.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchases are currently unavailable. Included videos are always free."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gli acquisti non sono disponibili al momento. I video inclusi sono sempre gratuiti."
+          }
+        }
+      }
+    },
+    "The purchase could not be verified.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The purchase could not be verified."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non è stato possibile verificare l’acquisto."
+          }
+        }
+      }
+    },
+    "Purchase awaiting approval. You can keep using the included videos.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase awaiting approval. You can keep using the included videos."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acquisto in attesa di approvazione. Puoi continuare a usare i video inclusi."
+          }
+        }
+      }
+    },
+    "Personal videos unlocked.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal videos unlocked."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video personali sbloccati."
+          }
+        }
+      }
+    },
+    "No previous purchase found.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No previous purchase found."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun acquisto precedente trovato."
+          }
+        }
+      }
+    },
+    "Your active video: an included animation or your own video from iPhone. 30 seconds at 1 fps.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your active video: an included animation or your own video from iPhone. 30 seconds at 1 fps."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il video attivo: un’animazione inclusa o un tuo video da iPhone. 30 secondi a 1 fps."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

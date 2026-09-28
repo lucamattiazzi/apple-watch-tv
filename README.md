@@ -3,14 +3,16 @@
 Un video sul quadrante dell’Apple Watch, ispirato al
 [Seiko TV Watch del 1982](https://museum.seiko.co.jp/en/collections/watch_latestage/collect040/).
 
-L’app include **Orbita**, un’animazione originale di 30 secondi creata con
-forme geometriche, senza immagini, filmati o musica esterni. È pronta al primo
-avvio e può essere sostituita con un video da Foto o File tramite la companion iPhone.
+L’app include **Orbita, Eclisse, Cometa, Pulsar e Vortice**, cinque animazioni
+originali di 30 secondi generate con forme geometriche, senza immagini, filmati
+o musica esterni. Sono gratuite e selezionabili su iPhone e Watch.
+La conversione e l’invio di video personali si sbloccano con un acquisto unico.
+Configurazione e passaggio al modello gratuito: [MONETIZATION.md](MONETIZATION.md).
 
 ## Un solo video attivo
 
-Ogni nuovo invio sostituisce il precedente. Sul Watch **Ripristina Orbita**
-riporta al video incluso. Gli aggiornamenti dell’app conservano il video
+Ogni nuovo invio sostituisce il precedente. Sul Watch **Video inclusi**
+permette di scegliere una delle cinque animazioni gratuite. Gli aggiornamenti dell’app conservano il video
 personale già caricato. Il video precedente viene eliminato dopo che la nuova
 cache è pronta; non esiste una libreria di video salvati.
 

@@ -28,7 +28,22 @@ final class PhoneVideoModel: ObservableObject {
             video = try store.loadInitialVideo()
         } catch { self.error = error.localizedDescription }
     }
-    func convert(_ url: URL, title: String, mode: VideoConversionMode) async {
+    func select(_ included: IncludedVideo) {
+        guard !busy else { return }
+        do {
+            let selected = try included.load()
+            try store.install(selected)
+            video = selected
+            error = nil
+        } catch { self.error = error.localizedDescription }
+    }
+    func convert(_ url: URL, title: String, mode: VideoConversionMode, access: VideoPurchaseStore) async {
+        guard access.unlocked else {
+            error = String(localized: "Unlock personal videos before importing.")
+            busy = false
+            try? FileManager.default.removeItem(at: url)
+            return
+        }
         busy = true; error = nil
         defer { busy = false; try? FileManager.default.removeItem(at: url) }
         do {
@@ -50,6 +65,8 @@ struct PhoneApp: App {
 struct PhoneContentView: View {
     @EnvironmentObject private var transfer: VideoTransfer
     @StateObject private var model = PhoneVideoModel()
+    @StateObject private var purchases = VideoPurchaseStore()
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selection: PhotosPickerItem?
     @State private var showFiles = false
     @AppStorage("conversionMode") private var mode: VideoConversionMode = .seiko
@@ -60,36 +77,25 @@ struct PhoneContentView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     Text("A video on your watch face")
                         .font(.largeTitle.bold())
-                    Text("Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.")
+                    Text("Five included animations, free forever. Unlock personal videos with a one-time purchase.")
                         .foregroundStyle(.secondary)
                     Text("One video at a time: each new transfer replaces the video on your Watch.")
                         .font(.callout)
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Conversion style").font(.headline)
-                        Picker("Conversion style", selection: $mode) {
-                            Text("Seiko").tag(VideoConversionMode.seiko)
-                            Text("Color").tag(VideoConversionMode.color)
+                        Text("Included videos").font(.headline)
+                        ForEach(IncludedVideo.allCases) { included in
+                            Button { model.select(included) } label: {
+                                HStack {
+                                    Text(included.title)
+                                    Spacer()
+                                    if model.video?.id == included.videoID {
+                                        Image(systemName: "checkmark.circle.fill")
+                                    }
+                                }
+                            }
+                            .disabled(model.busy)
                         }
-                        .pickerStyle(.segmented)
-                        .disabled(model.busy)
-                        if mode == .seiko {
-                            Text("128 × 72 · 8 shades of gray, inspired by the Seiko TV Watch.")
-                                .font(.caption).foregroundStyle(.secondary)
-                        } else {
-                            Text("256 × 144 · More detail and full color. Watch face settings may change the colors.")
-                                .font(.caption).foregroundStyle(.secondary)
-                        }
-                        Text("Applies to the next video you import.")
-                            .font(.caption).foregroundStyle(.secondary)
                     }
-                    HStack {
-                        PhotosPicker(selection: $selection, matching: .videos) {
-                            Label("From Photos", systemImage: "photo.on.rectangle")
-                        }
-                        Button { showFiles = true } label: { Label("From Files", systemImage: "folder") }
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(model.busy)
                     if model.busy { ProgressView("Preparing video…") }
                     if let error = model.error { Text(error).foregroundStyle(.red) }
                     if let video = model.video {
@@ -97,15 +103,74 @@ struct PhoneContentView: View {
                             .aspectRatio(16 / 9, contentMode: .fit)
                         Text(video.title).font(.headline)
                         Button {
-                            do { try transfer.send(video) } catch { model.error = error.localizedDescription }
+                            do { try transfer.send(video, personalVideosUnlocked: purchases.unlocked) } catch { model.error = error.localizedDescription }
                         } label: { Label("Send to Watch", systemImage: "applewatch.radiowaves.left.and.right") }
                         .buttonStyle(.borderedProminent)
-                        .disabled(model.busy)
+                        .disabled(model.busy || !PersonalVideoAccess.canSend(
+                            isIncluded: IncludedVideo.contains(video), unlocked: purchases.unlocked))
                     }
                     Text(transfer.status).font(.callout).foregroundStyle(.secondary)
                     Divider()
+                    Text("Personal videos").font(.headline)
+                    if purchases.checking {
+                        ProgressView("Checking purchases…")
+                    } else if purchases.unlocked {
+                        Label("Personal videos unlocked", systemImage: "checkmark.seal.fill")
+                    } else {
+                        Text("Convert and send as many of your own videos as you like. One purchase, no subscription.")
+                            .font(.callout)
+                        if let product = purchases.product {
+                            Button {
+                                Task { await purchases.purchase() }
+                            } label: {
+                                Text("Unlock personal videos · \(product.displayPrice)")
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(purchases.busy)
+                        } else {
+                            Button("Retry purchases") { Task { await purchases.load() } }
+                                .disabled(purchases.busy)
+                        }
+                    }
+                    Button("Restore purchases") { Task { await purchases.restore() } }
+                        .disabled(purchases.busy || purchases.checking)
+                    if purchases.busy { ProgressView() }
+                    if let message = purchases.message {
+                        Text(message).font(.callout).foregroundStyle(.secondary)
+                    }
+                    if purchases.unlocked {
+                        Text("Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.")
+                            .font(.callout)
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Conversion style").font(.headline)
+                            Picker("Conversion style", selection: $mode) {
+                                Text("Seiko").tag(VideoConversionMode.seiko)
+                                Text("Color").tag(VideoConversionMode.color)
+                            }
+                            .pickerStyle(.segmented)
+                            .disabled(model.busy)
+                            if mode == .seiko {
+                                Text("128 × 72 · 8 shades of gray, inspired by the Seiko TV Watch.")
+                                    .font(.caption).foregroundStyle(.secondary)
+                            } else {
+                                Text("256 × 144 · More detail and full color. Watch face settings may change the colors.")
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                            Text("Applies to the next video you import.")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                        HStack {
+                            PhotosPicker(selection: $selection, matching: .videos) {
+                                Label("From Photos", systemImage: "photo.on.rectangle")
+                            }
+                            Button { showFiles = true } label: { Label("From Files", systemImage: "folder") }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(model.busy)
+                    }
+                    Divider()
                     Text("On your Watch").font(.headline)
-                    Text("Orbita, an original animation, is already included on your Watch. You can replace it with your own video and restore it from your Watch.")
+                    Text("Choose Orbita, Eclisse, Cometa, Pulsar or Vortice directly on your Watch. All five animations are included for free.")
                     Text("For your watch face, choose Full video, or Top video and Bottom video on Modular Duo.")
                     Text("Your video is processed on your iPhone and transferred to your paired Watch. It is not uploaded to a server.")
                         .font(.footnote).foregroundStyle(.secondary)
@@ -119,8 +184,12 @@ struct PhoneContentView: View {
             .navigationTitle("TV Watch")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .task { await purchases.load() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await purchases.refreshAccess() } }
+        }
         .onChange(of: selection) { _, item in
-            guard let item else { return }
+            guard let item, purchases.unlocked else { selection = nil; return }
             model.busy = true
             let selectedMode = mode
             Task {
@@ -128,12 +197,13 @@ struct PhoneContentView: View {
                     guard let movie = try await item.loadTransferable(type: PickedMovie.self) else {
                         throw VideoConverter.Failure.noVideo
                     }
-                    await model.convert(movie.url, title: String(localized: "Video from Photos"), mode: selectedMode)
+                    await model.convert(movie.url, title: String(localized: "Video from Photos"), mode: selectedMode, access: purchases)
                 } catch { model.error = error.localizedDescription; model.busy = false }
                 selection = nil
             }
         }
         .fileImporter(isPresented: $showFiles, allowedContentTypes: [.movie, .video]) { result in
+            guard purchases.unlocked else { return }
             do {
                 let url = try result.get()
                 let access = url.startAccessingSecurityScopedResource()
@@ -143,7 +213,7 @@ struct PhoneContentView: View {
                 try FileManager.default.copyItem(at: url, to: copy)
                 model.busy = true
                 let selectedMode = mode
-                Task { await model.convert(copy, title: url.deletingPathExtension().lastPathComponent, mode: selectedMode) }
+                Task { await model.convert(copy, title: url.deletingPathExtension().lastPathComponent, mode: selectedMode, access: purchases) }
             } catch { model.error = error.localizedDescription }
         }
     }

@@ -70,7 +70,7 @@ private func personalConfiguration(kind: String, title: LocalizedStringKey, part
             .containerBackground(.black, for: .widget)
     }
     .configurationDisplayName(title)
-    .description("Your active video: the included Orbita animation or your own video from iPhone. 30 seconds at 1 fps.")
+    .description("Your active video: an included animation or your own video from iPhone. 30 seconds at 1 fps.")
     .supportedFamilies([.accessoryRectangular])
     .contentMarginsDisabled()
 }

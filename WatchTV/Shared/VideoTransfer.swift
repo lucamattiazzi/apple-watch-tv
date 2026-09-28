@@ -32,10 +32,10 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
     }
 
     #if os(watchOS)
-    func restoreBundledVideo() {
+    func selectIncludedVideo(_ included: IncludedVideo) {
         do {
             guard let store = ImportedVideoStore.shared else { throw ImportedVideo.Failure.unavailableStorage }
-            let video = try ImportedVideo.bundled()
+            let video = try included.load()
             try store.install(video)
             receivedVideo = video
             status = String(localized: "Included video restored.")
@@ -70,7 +70,11 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
     #endif
 
     #if os(iOS)
-    func send(_ video: ImportedVideo) throws {
+    func send(_ video: ImportedVideo, personalVideosUnlocked: Bool) throws {
+        guard PersonalVideoAccess.canSend(isIncluded: IncludedVideo.contains(video), unlocked: personalVideosUnlocked) else {
+            status = String(localized: "Unlock personal videos before importing.")
+            return
+        }
         let session = WCSession.default
         guard session.activationState == .activated, session.isPaired, session.isWatchAppInstalled else {
             status = String(localized: "Open TV Watch on your paired Watch, then try again.")

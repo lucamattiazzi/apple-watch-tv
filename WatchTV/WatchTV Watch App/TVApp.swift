@@ -28,12 +28,19 @@ struct ContentView: View {
                     transfer.refreshWidgets()
                 }.font(.caption2)
 
-                if transfer.receivedVideo?.id != ImportedVideo.bundledID {
-                    Button("Restore Orbita") { transfer.restoreBundledVideo() }
-                        .font(.caption2)
-                } else {
-                    Text("Orbita · included original animation, 30 seconds, no audio.")
-                        .font(.caption2).foregroundStyle(.secondary)
+                Text("Included videos").font(.headline)
+                ForEach(IncludedVideo.allCases) { included in
+                    Button {
+                        transfer.selectIncludedVideo(included)
+                    } label: {
+                        HStack {
+                            Text(included.title)
+                            if transfer.receivedVideo?.id == included.videoID {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                    .font(.caption2)
                 }
                 Text("Send a video from TV Watch on your iPhone to replace the current one.")
                     .font(.footnote)
