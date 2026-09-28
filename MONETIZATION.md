@@ -1,6 +1,9 @@
 # TV Watch: gratuita con video personali a pagamento
 
-Versione preparata: **1.1, build 22**. Non ancora caricata su TestFlight o pubblicata.
+Versione **1.1, build 22** caricata su App Store Connect il 29 settembre 2026.
+Archivio firmato e upload riusciti. App e acquisto **Waiting for Review**,
+inviati insieme il 29 settembre 2026 alle 00:28 Europe/Rome. Non pubblicata.
+Submission: `2d000f51-02ca-4b3b-91dd-4f43338f81a0`.
 
 ## Cosa è già implementato
 
@@ -14,12 +17,13 @@ Versione preparata: **1.1, build 22**. Non ancora caricata su TestFlight o pubbl
 - Ricevute App Store verificate con build originaria da 1 a 21 mantengono lo sblocco.
   Le ricevute sandbox non ottengono questa esenzione automatica.
 
-## Configurazione App Store Connect ancora necessaria
+## Configurazione App Store Connect
 
 Il file `.storekit` serve solo per simulare acquisti in Xcode: non crea prodotti
 su App Store Connect e non rende gratuita l’app pubblica.
 
-In **App Store Connect → TV Watch → Monetizzazione → Acquisti in-app**, crea:
+Prodotto creato in **App Store Connect → TV Watch S → Monetizzazione → Acquisti in-app**
+(Apple ID `6817124585`):
 
 | Campo | Valore |
 |---|---|
@@ -27,17 +31,19 @@ In **App Store Connect → TV Watch → Monetizzazione → Acquisti in-app**, cr
 | Nome di riferimento | Personal Videos Lifetime |
 | ID prodotto | `com.tvwatch.fonthack.personalvideos` |
 | Nome italiano | Video personali |
-| Descrizione italiana | Converti e invia video personali senza limiti. Acquisto unico. |
+| Descrizione italiana | Converti e invia i tuoi video. Acquisto unico. |
 | Nome inglese | Personal videos |
-| Descrizione inglese | Convert and send unlimited personal videos. One-time purchase. |
+| Descrizione inglese | Convert and send your videos. One-time purchase. |
 | Prezzo Italia | 0,99 € |
 
-Scegli disponibilità e prezzi negli altri territori. Il codice mostra il prezzo
-restituito da Apple, senza imporre 0,99 in tutte le valute. Completa eventuali
-accordi fiscali/bancari richiesti, screenshot della schermata di sblocco e
-informazioni per la review. Questi dati non sono stati modificati automaticamente.
+Disponibilità configurata in tutti i 175 territori, con prezzi equivalenti Apple
+e base Italia a 0,99 €. Il codice mostra il prezzo restituito da Apple.
+Il 29 settembre il prezzo dell’app è stato portato a zero, dopo il ritiro della
+vecchia submission 1.0 (20), ancora non pubblicata. Versione 1.1 con rilascio
+manuale e descrizioni EN/IT aggiornate. Screenshot IAP caricato, screenshot iPhone EN/IT aggiornati e acquisto
+inviato insieme alla versione 1.1 (22).
 
-Note per App Review, da adattare dopo i test:
+Sintesi delle note per App Review:
 
 > Five original animations are available for free on iPhone and Apple Watch.
 > The non-consumable Personal videos purchase unlocks unlimited on-device video
@@ -46,9 +52,9 @@ Note per App Review, da adattare dopo i test:
 > the iPhone app. Existing paid-app customers retain access via their verified
 > original app transaction.
 
-La prima IAP va presentata insieme alla versione dell’app che la utilizza.
-Carica la build, associa l’acquisto alla versione e completa il test sandbox
-prima di inviarli alla review. Usa un rilascio manuale per coordinare il passaggio.
+La prima IAP è stata presentata insieme alla versione che la utilizza.
+È impostato il rilascio manuale: l’approvazione Apple non pubblica da sola l’app.
+Prima del rilascio resta da verificare il flusso sandbox/TestFlight su dispositivo.
 
 **Non rendere gratuita la vecchia build 21 prima del passaggio:** chi la scarica
 riceverebbe l’esenzione prevista per gli acquirenti storici. La soglia nel codice
@@ -72,8 +78,13 @@ primo piano deve rimuovere l’accesso ai nuovi video personali.
 video, metà delle complicazioni, policy di accesso e traduzioni EN/IT verificati.
 Il test transazionale è bloccato nell’ambiente corrente: StoreKitTest restituisce
 `SKInternalErrorDomain Code=3` salvando la configurazione e non carica il prodotto.
-Non è stato verificato un acquisto reale, sandbox o locale riuscito. Risolvere
-questo test e provare il prodotto sandbox prima della pubblicazione.
+Il 29 settembre, avviando **Run** da Xcode con lo schema FontTV-StoreKit,
+il prodotto è stato caricato a 0,99 € e il test manuale è riuscito: acquisto
+con transazione verificata, comparsa di Foto/File, ripristino tramite dialogo
+Xcode e rimborso dal gestore transazioni con rimozione dello sblocco.
+Il target XCTest resta bloccato con Code=3 anche dall’IDE. Il test manuale
+è locale, senza addebiti: non equivale a una verifica sandbox/TestFlight.
+Screenshot effettivo: `distribution/iap-review-build22.png`.
 
 Per i controlli mirati senza StoreKit:
 
