@@ -1,4 +1,16 @@
-# TV Watch: gratuita con video personali a pagamento
+# TV Watch: app a pagamento, tutto incluso
+
+**Decisione del 29 settembre 2026:** TV Watch torna app a pagamento a 0,99 €, senza acquisti interni,
+per poter entrare nel bundle a pagamento con AniMeteo e le altre app (un bundle a pagamento accetta solo app a pagamento).
+Build 23: rimossi `VideoPurchaseStore`, `PersonalVideoAccess`, `TVWatch.storekit`, lo schema FontTV-StoreKit e il target
+`PurchaseTests`. Import e invio dei video personali sono sempre disponibili; le cinque animazioni restano incluse.
+L’app non è mai stata pubblicata, quindi non ci sono acquirenti dell’acquisto interno da migrare.
+
+Da fare in App Store Connect: ritirare la submission 1.1 (22) con l’acquisto, rimuovere l’acquisto “Personal Videos Lifetime”
+dalla revisione, impostare il prezzo a 0,99 € (base Italia), selezionare la build 23, aggiornare descrizioni e note di revisione, reinviare.
+
+Storico del modello gratuito con acquisto interno (build 22), non più in uso:
+
 
 Versione **1.1, build 22** caricata su App Store Connect il 29 settembre 2026.
 Archivio firmato e upload riusciti. App e acquisto **Waiting for Review**,

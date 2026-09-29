@@ -70,11 +70,7 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
     #endif
 
     #if os(iOS)
-    func send(_ video: ImportedVideo, personalVideosUnlocked: Bool) throws {
-        guard PersonalVideoAccess.canSend(isIncluded: IncludedVideo.contains(video), unlocked: personalVideosUnlocked) else {
-            status = String(localized: "Unlock personal videos before importing.")
-            return
-        }
+    func send(_ video: ImportedVideo) throws {
         let session = WCSession.default
         guard session.activationState == .activated, session.isPaired, session.isWatchAppInstalled else {
             status = String(localized: "Open TV Watch on your paired Watch, then try again.")
