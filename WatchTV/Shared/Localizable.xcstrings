@@ -1004,19 +1004,19 @@
         }
       }
     },
-    "Choose Orbita, Eclisse, Cometa, Pulsar or Vortice directly on your Watch. All five animations are included.": {
+    "Choose Orbita, Ingranaggi, Tennis, Pong or Acquario directly on your Watch. All five animations are included.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose Orbita, Eclisse, Cometa, Pulsar or Vortice directly on your Watch. All five animations are included."
+            "value": "Choose Orbita, Ingranaggi, Tennis, Pong or Acquario directly on your Watch. All five animations are included."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scegli Orbita, Eclisse, Cometa, Pulsar o Vortice direttamente sul Watch. Tutte e cinque le animazioni sono incluse."
+            "value": "Scegli Orbita, Ingranaggi, Tennis, Pong o Acquario direttamente sul Watch. Tutte e cinque le animazioni sono incluse."
           }
         }
       }

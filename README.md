@@ -3,7 +3,7 @@
 Un video sul quadrante dell’Apple Watch, ispirato al
 [Seiko TV Watch del 1982](https://museum.seiko.co.jp/en/collections/watch_latestage/collect040/).
 
-L’app include **Orbita, Eclisse, Cometa, Pulsar e Vortice**, cinque animazioni
+L’app include **Orbita, Ingranaggi, Tennis, Pong e Acquario**, cinque animazioni
 originali di 30 secondi generate con forme geometriche, senza immagini, filmati
 o musica esterni, selezionabili su iPhone e Watch. App a pagamento (0,99 €):
 conversione e invio di video personali inclusi, senza acquisti interni.

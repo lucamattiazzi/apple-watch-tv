@@ -133,7 +133,7 @@ struct PhoneContentView: View {
                     .disabled(model.busy)
                     Divider()
                     Text("On your Watch").font(.headline)
-                    Text("Choose Orbita, Eclisse, Cometa, Pulsar or Vortice directly on your Watch. All five animations are included.")
+                    Text("Choose Orbita, Ingranaggi, Tennis, Pong or Acquario directly on your Watch. All five animations are included.")
                     Text("For your watch face, choose Full video, or Top video and Bottom video on Modular Duo.")
                     Text("Your video is processed on your iPhone and transferred to your paired Watch. It is not uploaded to a server.")
                         .font(.footnote).foregroundStyle(.secondary)

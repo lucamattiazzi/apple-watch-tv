@@ -2,16 +2,16 @@ import Foundation
 
 /// Stable identifiers keep bundled choices distinct from imported movies.
 enum IncludedVideo: String, CaseIterable, Identifiable {
-    case orbita, eclisse, cometa, pulsar, vortice
+    case orbita, ingranaggi, tennis, pong, acquario
     var id: String { rawValue }
     var title: String { rawValue.capitalized }
     var videoID: UUID {
         switch self {
         case .orbita: return ImportedVideo.bundledID
-        case .eclisse: return UUID(uuidString: "9F280001-0000-4000-8000-000000000001")!
-        case .cometa: return UUID(uuidString: "9F280001-0000-4000-8000-000000000002")!
-        case .pulsar: return UUID(uuidString: "9F280001-0000-4000-8000-000000000003")!
-        case .vortice: return UUID(uuidString: "9F280001-0000-4000-8000-000000000004")!
+        case .ingranaggi: return UUID(uuidString: "9F290001-0000-4000-8000-000000000001")!
+        case .tennis: return UUID(uuidString: "9F290001-0000-4000-8000-000000000002")!
+        case .pong: return UUID(uuidString: "9F290001-0000-4000-8000-000000000003")!
+        case .acquario: return UUID(uuidString: "9F290001-0000-4000-8000-000000000004")!
         }
     }
     func load(directory: URL = Bundle.main.resourceURL!) throws -> ImportedVideo {

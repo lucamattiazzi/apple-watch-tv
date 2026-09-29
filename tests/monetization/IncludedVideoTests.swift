@@ -3,6 +3,7 @@ import Foundation
 @main
 struct IncludedVideoTests {
     static func main() throws {
+        precondition(IncludedVideo.allCases.map(\.rawValue) == ["orbita", "ingranaggi", "tennis", "pong", "acquario"])
         let directory = URL(fileURLWithPath: CommandLine.arguments[1])
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: root) }
