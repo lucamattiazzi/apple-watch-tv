@@ -14,10 +14,15 @@ def verify(archive):
 
 def verify_bundles(watch, extension):
     names = {"DefaultFull.ttf", "DefaultTop.ttf", "DefaultBottom.ttf"}
+    timer_names = {f"TimerFonts/TVWatchGate{period}{half}.ttf"
+                   for period in (30, 60) for half in ("", "Half")}
     for bundle in (watch, extension):
         info = plistlib.loads((bundle / "Info.plist").read_bytes())
-        assert set(info.get("UIAppFonts", [])) == names, f"{bundle.name}: unexpected font declarations"
+        assert set(info.get("UIAppFonts", [])) == (names | timer_names if bundle == extension else names), f"{bundle.name}: unexpected font declarations"
         assert {path.name for path in bundle.glob("*.ttf")} == names, f"{bundle.name}: unexpected font resources"
+    for name in sorted(timer_names):
+        assert (extension / name).is_file(), f"Missing timer mask: {name}"
+        print(f"PASS: {name} declared and present in the widget extension")
     resources, = extension.glob("VideoWidgetLibrary_*.bundle")
     for name in ("VideoWidgetGate.ttf", "VideoWidgetGateHalf.ttf"):
         assert (resources / name).is_file(), f"Missing package font: {name}"

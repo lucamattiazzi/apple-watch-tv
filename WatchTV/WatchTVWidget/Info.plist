@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<!-- Same declaration as the containing app: no cryptography of our own. -->
@@ -31,6 +31,10 @@
 		<string>DefaultFull.ttf</string>
 		<string>DefaultTop.ttf</string>
 		<string>DefaultBottom.ttf</string>
+		<string>TimerFonts/TVWatchGate30.ttf</string>
+		<string>TimerFonts/TVWatchGate30Half.ttf</string>
+		<string>TimerFonts/TVWatchGate60.ttf</string>
+		<string>TimerFonts/TVWatchGate60Half.ttf</string>
 	</array>
 	<key>NSExtension</key>
 	<dict>

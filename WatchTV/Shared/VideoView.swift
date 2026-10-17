@@ -43,33 +43,43 @@ struct VideoView: View {
     }
 }
 
-/// In-app playback uses the same decoded images as the widget cache.
+/// Decode only the current episode, keeping a long story's Watch memory bounded.
 struct AppVideoPreview: View {
     let video: ImportedVideo
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 1 / Double(video.timing.framesPerSecond))) { context in
+            let tick = Int(context.date.timeIntervalSince1970 * Double(video.timing.framesPerSecond))
+            let count = max(1, video.timing.framesPerEpisode)
+            AppVideoEpisode(video: video, episode: (tick / count) % max(1, video.episodeCount), second: tick % count)
+        }
+        .background(.black)
+    }
+}
+
+private struct AppVideoEpisode: View {
+    let video: ImportedVideo
+    let episode: Int
+    let second: Int
     @State private var frames: [CGImage] = []
     @State private var error: String?
 
     var body: some View {
         Group {
-            if frames.count == 30 {
-                TimelineView(.periodic(from: .now, by: 1)) { context in
-                    let second = Int(context.date.timeIntervalSince1970) % 30
-                    Image(decorative: frames[second], scale: 1)
-                        .resizable().interpolation(.none).scaledToFit()
-                        .accessibilityLabel("30-second video")
-                }
+            if frames.count == video.timing.framesPerEpisode {
+                Image(decorative: frames[second], scale: 1)
+                    .resizable().interpolation(.none).scaledToFit()
+                    .accessibilityLabel(video.title)
             } else if let error {
                 Text(error).font(.caption)
             } else {
                 ProgressView()
             }
         }
-        .background(.black)
-        .task(id: video.id) {
+        .task(id: video.id.uuidString + ":" + String(episode)) {
             frames = []
             error = nil
             let result = await Task.detached(priority: .userInitiated) {
-                Result { try video.renderWidgetFrames() }
+                Result { try video.renderWidgetFrames(episode: episode) }
             }.value
             guard !Task.isCancelled else { return }
             switch result {

@@ -28,10 +28,10 @@ final class PhoneVideoModel: ObservableObject {
             video = try store.loadInitialVideo()
         } catch { self.error = error.localizedDescription }
     }
-    func select(_ included: IncludedVideo) {
+    func select(_ included: IncludedVideo, style: IncludedVideoStyle) {
         guard !busy else { return }
         do {
-            let selected = try included.load()
+            let selected = try included.load(style: style)
             try store.install(selected)
             video = selected
             error = nil
@@ -62,6 +62,7 @@ struct PhoneContentView: View {
     @State private var selection: PhotosPickerItem?
     @State private var showFiles = false
     @AppStorage("conversionMode") private var mode: VideoConversionMode = .seiko
+    @AppStorage("includedVideoStyle") private var includedStyle: IncludedVideoStyle = .bw
 
     var body: some View {
         NavigationStack {
@@ -75,12 +76,17 @@ struct PhoneContentView: View {
                         .font(.callout)
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Included videos").font(.headline)
+                        Picker("Included video style", selection: $includedStyle) {
+                            Text("B/W").tag(IncludedVideoStyle.bw)
+                            Text("Color").tag(IncludedVideoStyle.color)
+                        }
+                        .pickerStyle(.segmented)
                         ForEach(IncludedVideo.allCases) { included in
-                            Button { model.select(included) } label: {
+                            Button { model.select(included, style: includedStyle) } label: {
                                 HStack {
                                     Text(included.title)
                                     Spacer()
-                                    if model.video?.id == included.videoID {
+                                    if included.isSelected(model.video, style: includedStyle) {
                                         Image(systemName: "checkmark.circle.fill")
                                     }
                                 }
@@ -103,7 +109,7 @@ struct PhoneContentView: View {
                     Text(transfer.status).font(.callout).foregroundStyle(.secondary)
                     Divider()
                     Text("Personal videos").font(.headline)
-                    Text("Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.")
+                    Text("Choose a video. The first 60 seconds become a loop at 2 fps. Shorter videos repeat; the aspect ratio is preserved.")
                         .font(.callout)
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Conversion style").font(.headline)
@@ -133,7 +139,7 @@ struct PhoneContentView: View {
                     .disabled(model.busy)
                     Divider()
                     Text("On your Watch").font(.headline)
-                    Text("Choose Orbita, Ingranaggi, Tennis, Pong or Acquario directly on your Watch. All five animations are included.")
+                    Text("Choose Isola deserta, Orbita, Acquario, Ingranaggi or Labirinto 3D directly on your Watch. Each is available in B/W and color.")
                     Text("For your watch face, choose Full video, or Top video and Bottom video on Modular Duo.")
                     Text("Your video is processed on your iPhone and transferred to your paired Watch. It is not uploaded to a server.")
                         .font(.footnote).foregroundStyle(.secondary)

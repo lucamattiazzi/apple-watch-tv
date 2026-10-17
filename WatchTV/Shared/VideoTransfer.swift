@@ -21,7 +21,13 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
         #if os(watchOS)
         do {
             guard let store = ImportedVideoStore.shared else { throw ImportedVideo.Failure.unavailableStorage }
-            receivedVideo = try store.loadInitialVideo()
+            let current = try store.loadInitialVideo()
+            if let updated = try IncludedVideo.refreshed(current) {
+                try store.install(updated)
+                receivedVideo = updated
+            } else {
+                receivedVideo = current
+            }
         } catch { status = error.localizedDescription }
         refreshWidgets()
         #endif
@@ -32,10 +38,10 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
     }
 
     #if os(watchOS)
-    func selectIncludedVideo(_ included: IncludedVideo) {
+    func selectIncludedVideo(_ included: IncludedVideo, style: IncludedVideoStyle) {
         do {
             guard let store = ImportedVideoStore.shared else { throw ImportedVideo.Failure.unavailableStorage }
-            let video = try included.load()
+            let video = try included.load(style: style)
             try store.install(video)
             receivedVideo = video
             status = String(localized: "Included video restored.")
@@ -50,7 +56,7 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
             return
         }
         preparingWidgets = true
-        widgetPreparationStatus = String(localized: "Preparing 30 frames…")
+        widgetPreparationStatus = String(localized: "Preparing video frames…")
         Task {
             let result = await Task.detached(priority: .userInitiated) {
                 Result { try store.prepareWidgetAssets(video) }
@@ -60,7 +66,7 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
             guard receivedVideo?.id == video.id else { refreshWidgets(); return }
             switch result {
             case .success:
-                widgetPreparationStatus = String(localized: "30 frames ready for widgets.")
+                widgetPreparationStatus = String(localized: "Video ready for widgets.")
                 WidgetCenter.shared.reloadAllTimelines()
             case .failure(let error):
                 widgetPreparationStatus = String(localized: "Widget preparation: \(error.localizedDescription)")

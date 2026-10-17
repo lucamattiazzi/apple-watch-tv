@@ -3,16 +3,21 @@
 Un video sul quadrante dell’Apple Watch, ispirato al
 [Seiko TV Watch del 1982](https://museum.seiko.co.jp/en/collections/watch_latestage/collect040/).
 
-L’app include **Orbita, Ingranaggi, Tennis, Pong e Acquario**, cinque animazioni
-originali di 30 secondi generate con forme geometriche, senza immagini, filmati
-o musica esterni, selezionabili su iPhone e Watch. App a pagamento (0,99 €):
+L’app include **Isola deserta, Orbita, Acquario, Ingranaggi e Labirinto 3D**, cinque animazioni
+originali in pixel art a 2 fps, con palette dedicate per bianco e nero e colori.
+Isola deserta contiene 12 episodi di 30 secondi: pesca, cannocchiale, cocco,
+castello di sabbia, lettura, riposo, messaggio in bottiglia, granchio, cucina,
+gabbiano, pioggia e zattera. Nell’app gli episodi cambiano ogni 30 secondi;
+le complicazioni programmano un episodio diverso ogni 15 minuti, con tempi
+effettivi gestiti da watchOS. Gli altri quattro screensaver ripetono loop di 30 secondi.
+Tutta la grafica è originale, senza immagini o filmati esterni. App a pagamento (0,99 €):
 conversione e invio di video personali inclusi, senza acquisti interni.
 Storia del modello di vendita: [MONETIZATION.md](MONETIZATION.md).
 
 ## Un solo video attivo
 
 Ogni nuovo invio sostituisce il precedente. Sul Watch **Video inclusi**
-permette di scegliere una delle cinque animazioni incluse. Gli aggiornamenti dell’app conservano il video
+permette di scegliere una delle cinque animazioni incluse e lo stile B/N o colori. Gli aggiornamenti dell’app conservano il video
 personale già caricato. Il video precedente viene eliminato dopo che la nuova
 cache è pronta; non esiste una libreria di video salvati.
 
@@ -23,7 +28,7 @@ Prima di importare un video, la companion iPhone offre due stili:
 - **Seiko**: 128×72 pixel, 8 livelli di grigio, per un aspetto rétro.
 - **Colore**: 256×144 pixel sRGB, per più dettagli e colori.
 
-Entrambi durano 30 secondi, senza audio, a 1 fps. I video più brevi si ripetono;
+Entrambi durano 60 secondi, senza audio, a 2 fps (120 fotogrammi). I video più brevi si ripetono;
 le proporzioni vengono conservate con eventuali bande nere. La scelta vale
 per l’importazione successiva. Per cambiare stile al video corrente occorre
 importare nuovamente l’originale. I colori delle complicazioni dipendono anche
@@ -49,7 +54,7 @@ xcodebuild build -project WatchTV/WatchTV.xcodeproj -scheme FontTV \
 - [Origine e licenza dell’animazione](out/default/README.md).
 
 Il repository contiene il progetto corrente, senza i prototipi precedenti.
-I cinque font e le icone necessari alla compilazione sono già inclusi:
+I font, i dieci pacchetti delle animazioni e le icone necessari alla compilazione sono già inclusi:
 Python e `ffmpeg` servono solo per rigenerare gli asset. La compilazione richiede
 macOS e Xcode con gli SDK iOS e watchOS (verificata con Xcode 26.6).
 
@@ -91,6 +96,15 @@ Gli archivi di distribuzione e i backup locali sono esclusi da Git.
 
 ## Shared complication renderer
 
-Imported video complications use [1fps-widget](https://github.com/lucamattiazzi/1fps-widget), pinned to version 0.1.0 through Swift Package Manager. Open the Xcode project and let Xcode resolve packages; no local checkout of the library is required. The `VideoWidgetLibrary` product is linked to the widget extension and supplies its mask fonts in its own resource bundle.
+New screensavers and imports use `WatchTV/Shared/StackedVideo.swift`, adapted from
+AniWeather's stacked opaque frames. System timer text and bundled 30/60-second
+masks reveal two frames per second, with frame-zero fallback and a separate
+last-second group to handle delayed timer updates. Full/Top/Bottom share the
+same wall-clock phase; the half-height masks preserve Modular Duo geometry.
 
-The provider loads full frames and lets the library crop the top/bottom variants. Orbita's bundled-font fallback, video conversion, storage and transfer remain app-owned. The extracted library needs physical-Watch verification of cold start, full/top/bottom rendering, video replacement and Always-On behavior before the next release.
+Version-4 packages carry playback timing. Imports contain 120 PNGs for a
+60-second loop; stock episodes contain 60 PNGs for 30 seconds. Version 1–3
+packages retain their original timing. The pinned `1fps-widget` 0.1.0 package
+continues rendering older 30-frame loops. One episode per widget timeline
+bounds image memory. WidgetKit controls story refresh and Always-On behavior;
+physical-Watch validation is required for the new two-fps path.

@@ -10,6 +10,7 @@ struct TVApp: App {
 
 struct ContentView: View {
     @EnvironmentObject private var transfer: VideoTransfer
+    @AppStorage("includedVideoStyle") private var includedStyle: IncludedVideoStyle = .bw
 
     var body: some View {
         ScrollView {
@@ -29,13 +30,17 @@ struct ContentView: View {
                 }.font(.caption2)
 
                 Text("Included videos").font(.headline)
+                Picker("Included video style", selection: $includedStyle) {
+                    Text("B/W").tag(IncludedVideoStyle.bw)
+                    Text("Color").tag(IncludedVideoStyle.color)
+                }
                 ForEach(IncludedVideo.allCases) { included in
                     Button {
-                        transfer.selectIncludedVideo(included)
+                        transfer.selectIncludedVideo(included, style: includedStyle)
                     } label: {
                         HStack {
                             Text(included.title)
-                            if transfer.receivedVideo?.id == included.videoID {
+                            if included.isSelected(transfer.receivedVideo, style: includedStyle) {
                                 Image(systemName: "checkmark")
                             }
                         }

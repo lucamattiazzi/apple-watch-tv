@@ -114,7 +114,9 @@ cambiare video durante la preparazione e provare un video personale dopo lo sblo
 ## Animazioni
 
 Generatore riproducibile: `scripts/generate_included_videos.py` (Pillow e ffmpeg).
-I quattro file `.video` sono bundle plist con 30 PNG 192×108 in scala di grigi.
+I dieci file `.video` sono bundle plist con episodi di 30 secondi a 2 fps:
+60 PNG per episodio, 192×108 in scala di grigi oppure 256×144 a colori.
+Il naufrago contiene 12 episodi, per un totale di 720 PNG per variante.
 Sono originali, generati da geometria e rilasciati CC0 1.0 come Orbita.
 Le anteprime MP4 e il provino si rigenerano in `out/included/`:
 

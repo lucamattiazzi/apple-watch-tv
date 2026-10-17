@@ -7,6 +7,19 @@ struct VideoFontAsset: Codable {
     let data: Data
 }
 
+/// Timing travels with the PNGs, so 120 frames mean one minute rather than four old episodes.
+struct VideoPlayback: Codable, Equatable {
+    let framesPerSecond: Int
+    let duration: Int
+    static let legacy = VideoPlayback(framesPerSecond: 1, duration: 30)
+    var isValid: Bool { [1, 2].contains(framesPerSecond) && [30, 60].contains(duration) }
+    var framesPerEpisode: Int { isValid ? framesPerSecond * duration : 0 }
+    func accepts(frameCount: Int) -> Bool {
+        isValid && (framesPerEpisode...framesPerEpisode * 12).contains(frameCount) &&
+            frameCount.isMultiple(of: framesPerEpisode)
+    }
+}
+
 struct ImportedVideo: Codable {
     static let bundledID = UUID(uuidString: "3FB9A59E-9076-45D4-AF77-C80422A1A2C0")!
     var version = 1
@@ -14,6 +27,8 @@ struct ImportedVideo: Codable {
     let title: String
     let fonts: [VideoFontAsset]
     var frames: [Data]? = nil
+    var playback: VideoPlayback? = nil
+    var timing: VideoPlayback { playback ?? .legacy }
 
     enum Failure: LocalizedError {
         case invalidPackage, unavailableStorage, invalidFont
@@ -76,10 +91,21 @@ struct ImportedVideo: Codable {
                 [kCGImageSourceShouldCacheImmediately: true] as CFDictionary) else { throw Failure.invalidPackage }
         return image
     }
-    func renderWidgetFrames() throws -> [CGImage] {
-        if version == 2 {
-            guard let frames, frames.count == 30 else { throw Failure.invalidPackage }
-            return try frames.map(Self.decodeFrame)
+    var totalFrameCount: Int { version == 1 ? 30 : frames?.count ?? 0 }
+    var episodeCount: Int { timing.isValid ? totalFrameCount / timing.framesPerEpisode : 0 }
+    static func validFrameCount(_ count: Int, version: Int) -> Bool {
+        version == 2 ? count == 30 : version == 3 && (30...360).contains(count) && count.isMultiple(of: 30)
+    }
+    private var validTimingAndCount: Bool {
+        if version == 4 { return playback != nil && timing.accepts(frameCount: totalFrameCount) }
+        return playback == nil && Self.validFrameCount(totalFrameCount, version: version)
+    }
+    func renderWidgetFrames(episode: Int = 0) throws -> [CGImage] {
+        guard (0..<episodeCount).contains(episode) else { throw Failure.invalidPackage }
+        if (2...4).contains(version) {
+            guard let frames, validTimingAndCount else { throw Failure.invalidPackage }
+            let count = timing.framesPerEpisode
+            return try frames[(episode * count)..<(episode * count + count)].map(Self.decodeFrame)
         }
         let font = try font(part: "Full", size: 128)
         return try (0..<30).map { try Self.rasterFrame(font: font, height: 108, second: $0) }
@@ -102,8 +128,8 @@ struct ImportedVideo: Codable {
 
     func validate() throws {
         guard title.count <= 200 else { throw Failure.invalidPackage }
-        if version == 2 {
-            guard fonts.isEmpty, let frames, frames.count == 30 else { throw Failure.invalidPackage }
+        if (2...4).contains(version) {
+            guard fonts.isEmpty, let frames, validTimingAndCount else { throw Failure.invalidPackage }
             var dimensions: CGSize?
             for data in frames {
                 let image = try Self.decodeFrame(data)
@@ -113,7 +139,7 @@ struct ImportedVideo: Codable {
             }
             return
         }
-        guard version == 1, frames == nil, fonts.count == 3,
+        guard version == 1, playback == nil, frames == nil, fonts.count == 3,
               Set(fonts.map(\.part)) == Set(["Full", "Top", "Bottom"]) else {
             throw Failure.invalidPackage
         }
@@ -132,6 +158,15 @@ struct WidgetVideoMetadata: Codable {
     let id: UUID
     let title: String
     var frameCount: Int? = nil
+    var playback: VideoPlayback? = nil
+    var timing: VideoPlayback { playback ?? .legacy }
+    var episodeCount: Int { timing.isValid ? (frameCount ?? 0) / timing.framesPerEpisode : 0 }
+    // Both complication halves use the same wall-clock episode.
+    func episode(at date: Date) -> Int {
+        guard episodeCount > 0 else { return 0 }
+        let slot = Int(floor(date.timeIntervalSince1970 / 900))
+        return ((slot % episodeCount) + episodeCount) % episodeCount
+    }
 }
 
 struct ImportedVideoStore {
@@ -167,9 +202,9 @@ struct ImportedVideoStore {
         if let current = current(), current.id != video.id { return }
         let directory = root.appendingPathComponent(video.id.uuidString)
         let framesDirectory = directory.appendingPathComponent("frames")
-        let urls = (0..<30).map { framesDirectory.appendingPathComponent(String(format: "%02d.png", $0)) }
+        let urls = (0..<video.totalFrameCount).map { framesDirectory.appendingPathComponent(String(format: "%02d.png", $0)) }
         let existing = try? widgetMetadata()
-        if existing?.id == video.id, existing?.frameCount == 30,
+        if existing?.id == video.id, existing?.frameCount == video.totalFrameCount, existing?.timing == video.timing,
            urls.allSatisfy({ FileManager.default.fileExists(atPath: $0.path) }) {
             removePreviousVideos(keeping: [video.id])
             return
@@ -180,16 +215,18 @@ struct ImportedVideoStore {
             try png.write(to: urls[index], options: .atomic)
         }
         // Publish only after every frame is ready; legacy metadata remains readable.
-        let metadata = WidgetVideoMetadata(id: video.id, title: video.title, frameCount: 30)
+        let metadata = WidgetVideoMetadata(id: video.id, title: video.title, frameCount: video.totalFrameCount, playback: video.playback)
         try JSONEncoder().encode(metadata).write(to: root.appendingPathComponent("current.widget"), options: .atomic)
         removePreviousVideos(keeping: [video.id])
     }
-    func widgetFrames(_ metadata: WidgetVideoMetadata, part: String) throws -> [CGImage] {
-        guard metadata.frameCount == 30, ["Full", "Top", "Bottom"].contains(part) else {
+    func widgetFrames(_ metadata: WidgetVideoMetadata, part: String, episode: Int = 0) throws -> [CGImage] {
+        guard let count = metadata.frameCount, metadata.timing.accepts(frameCount: count),
+              (0..<metadata.episodeCount).contains(episode), ["Full", "Top", "Bottom"].contains(part) else {
             throw ImportedVideo.Failure.invalidPackage
         }
         let directory = root.appendingPathComponent(metadata.id.uuidString).appendingPathComponent("frames")
-        return try (0..<30).map { index in
+        let length = metadata.timing.framesPerEpisode
+        return try (episode * length..<episode * length + length).map { index in
             let url = directory.appendingPathComponent(String(format: "%02d.png", index))
             let image = try ImportedVideo.decodeFrame(Data(contentsOf: url))
             if part == "Full" { return image }

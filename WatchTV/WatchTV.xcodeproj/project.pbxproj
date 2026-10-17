@@ -42,6 +42,8 @@
 		AD0000000000000000000002 /* IncludedVideos in Resources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000001; };
 		AD0000000000000000000003 /* IncludedVideos in Resources */ = {isa = PBXBuildFile; fileRef = AC0000000000000000000001; };
 
+		AE2000000000000000000001 /* StackedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1000000000000000000001; };
+		AE2000000000000000000002 /* TimerFonts in Resources */ = {isa = PBXBuildFile; fileRef = AE1000000000000000000002; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +110,8 @@
 		AC0000000000000000000000 /* IncludedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncludedVideo.swift; sourceTree = "<group>"; };
 		AC0000000000000000000001 /* IncludedVideos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IncludedVideos; sourceTree = "<group>"; };
 
+		AE1000000000000000000001 /* StackedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedVideo.swift; sourceTree = "<group>"; };
+		AE1000000000000000000002 /* TimerFonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TimerFonts; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,8 @@
 
 				FF00000000000000000019 /* VideoTransfer.swift */,
 				FF00000000000000000018 /* ImportedVideo.swift */,
+				AE1000000000000000000001 /* StackedVideo.swift */,
+				AE1000000000000000000002 /* TimerFonts */,
 				FF00000000000000000017 /* DefaultBottom.ttf */,
 				FF00000000000000000016 /* DefaultTop.ttf */,
 				FF00000000000000000015 /* DefaultFull.ttf */,
@@ -302,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB00000000000000000041 /* Localizable.xcstrings in Resources */,
+				AE2000000000000000000002 /* TimerFonts in Resources */,
 				BB00000000000000000022 /* DefaultBottom.ttf in Resources */,
 				BB00000000000000000020 /* DefaultTop.ttf in Resources */,
 				BB0000000000000000001E /* DefaultFull.ttf in Resources */,
@@ -341,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB0000000000000000002B /* Companion */,
+				AE2000000000000000000001 /* StackedVideo.swift in Sources */,
 				BB00000000000000000024 /* Companion */,
 				BB0000000000000000001C /* VideoView.swift in Sources */,
 				BB00000000000000000006 /* TVWidget.swift in Sources */,
@@ -442,7 +450,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "WatchTV Watch App/Info.plist";
@@ -450,7 +458,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tvwatch.fonthack.watchkitapp;
 				PRODUCT_NAME = WatchTV;
 				SKIP_INSTALL = YES;
@@ -465,7 +473,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "WatchTV Watch App/Info.plist";
@@ -473,7 +481,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tvwatch.fonthack.watchkitapp;
 				PRODUCT_NAME = WatchTV;
 				SKIP_INSTALL = YES;
@@ -486,7 +494,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Shared/VideoSharing.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 27;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WatchTVWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -494,7 +502,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tvwatch.fonthack.watchkitapp.widget;
 				PRODUCT_NAME = WatchTVWidget;
 				SKIP_INSTALL = YES;
@@ -507,7 +515,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Shared/VideoSharing.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 27;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = WatchTVWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,7 +523,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tvwatch.fonthack.watchkitapp.widget;
 				PRODUCT_NAME = WatchTVWidget;
 				SKIP_INSTALL = YES;
@@ -535,12 +543,12 @@
                 WATCHOS_DEPLOYMENT_TARGET = 10.0;
 
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "TV Watch";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tvwatch.fonthack;
 				PRODUCT_NAME = FontTV;
 				SDKROOT = iphoneos;
@@ -562,12 +570,12 @@
                 WATCHOS_DEPLOYMENT_TARGET = 10.0;
 
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "TV Watch";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tvwatch.fonthack;
 				PRODUCT_NAME = FontTV;
 				SDKROOT = iphoneos;

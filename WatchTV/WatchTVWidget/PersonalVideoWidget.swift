@@ -5,7 +5,9 @@ import VideoWidgetLibrary
 private struct PersonalVideoEntry: TimelineEntry {
     let date: Date
     var video: WidgetVideo?
+    var stacked: StackedVideo?
     var usesBundledVideo = false
+    var episodeCount = 1
     var message = String(localized: "Send a video from TV Watch on your iPhone")
     var anchor: Date { Calendar.current.startOfDay(for: date).addingTimeInterval(-30) }
 }
@@ -16,8 +18,8 @@ private struct PersonalVideoProvider: TimelineProvider {
     func placeholder(in context: Context) -> PersonalVideoEntry {
         PersonalVideoEntry(date: .now, usesBundledVideo: true)
     }
-    private func entry() -> PersonalVideoEntry {
-        var entry = PersonalVideoEntry(date: .now)
+    private func entry(at date: Date = .now) -> PersonalVideoEntry {
+        var entry = PersonalVideoEntry(date: date)
         guard let store = ImportedVideoStore.shared else {
             entry.message = String(localized: "Shared storage is unavailable")
             return entry
@@ -27,18 +29,27 @@ private struct PersonalVideoProvider: TimelineProvider {
                 entry.usesBundledVideo = true
                 return entry
             }
-            guard metadata.frameCount == 30 else {
+            guard let count = metadata.frameCount, metadata.timing.accepts(frameCount: count) else {
                 entry.message = String(localized: "Open TV Watch on your Watch to prepare the frames")
                 return entry
             }
-            let frames = try store.widgetFrames(metadata, part: "Full")
+            entry.episodeCount = metadata.episodeCount
+            let framePart = metadata.timing == .legacy ? "Full" : part.rawValue
+            let frames = try store.widgetFrames(metadata, part: framePart, episode: metadata.episode(at: date))
             let videoPart: VideoWidgetLibrary.VideoPart
             switch part {
             case .full: videoPart = .full
             case .top: videoPart = .top
             case .bottom: videoPart = .bottom
             }
-            entry.video = try WidgetVideo(frames: frames, part: videoPart)
+            if metadata.timing == .legacy {
+                entry.video = try WidgetVideo(frames: frames, part: videoPart)
+            } else {
+                guard let stacked = StackedVideo(frames: frames, timing: metadata.timing, part: part) else {
+                    throw ImportedVideo.Failure.invalidPackage
+                }
+                entry.stacked = stacked
+            }
         } catch { entry.message = error.localizedDescription }
         return entry
     }
@@ -46,7 +57,14 @@ private struct PersonalVideoProvider: TimelineProvider {
         completion(entry())
     }
     func getTimeline(in context: Context, completion: @escaping (Timeline<PersonalVideoEntry>) -> Void) {
-        completion(Timeline(entries: [entry()], policy: .never))
+        let first = entry()
+        guard first.episodeCount > 1 else {
+            completion(Timeline(entries: [first], policy: .never))
+            return
+        }
+        // Like AniWeather, keep one prepared episode in the extension to bound image memory.
+        let next = Date(timeIntervalSince1970: (floor(first.date.timeIntervalSince1970 / 900) + 1) * 900)
+        completion(Timeline(entries: [first], policy: .after(next)))
     }
 }
 
@@ -56,6 +74,8 @@ private struct PersonalVideoEntryView: View {
     var body: some View {
         if entry.usesBundledVideo {
             VideoView(text: Text(entry.anchor, style: .timer), part: part)
+        } else if let stacked = entry.stacked {
+            StackedVideoView(video: stacked, referenceDate: entry.date)
         } else if let video = entry.video {
             WidgetVideoView(video: video, referenceDate: entry.date)
         } else {
@@ -70,7 +90,7 @@ private func personalConfiguration(kind: String, title: LocalizedStringKey, part
             .containerBackground(.black, for: .widget)
     }
     .configurationDisplayName(title)
-    .description("Your active video: an included animation or your own video from iPhone. 30 seconds at 1 fps.")
+    .description("Your active video: an included screensaver or your own video from iPhone. Up to 60 seconds at 2 fps.")
     .supportedFamilies([.accessoryRectangular])
     .contentMarginsDisabled()
 }

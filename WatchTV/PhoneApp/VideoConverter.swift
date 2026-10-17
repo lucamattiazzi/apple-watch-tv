@@ -30,9 +30,11 @@ struct VideoConverter {
         let space = mode == .seiko ? CGColorSpaceCreateDeviceGray() : CGColorSpace(name: CGColorSpace.sRGB)!
         let bitmapInfo = mode == .seiko ? CGImageAlphaInfo.none.rawValue : CGImageAlphaInfo.premultipliedLast.rawValue
         var frames: [[UInt8]] = []
-        for second in 0..<30 {
+        let playback = VideoPlayback(framesPerSecond: 2, duration: 60)
+        for index in 0..<playback.framesPerEpisode {
             try Task.checkCancellation()
-            let time = (Double(second) + 0.5).truncatingRemainder(dividingBy: min(duration, 30))
+            let time = ((Double(index) + 0.5) / Double(playback.framesPerSecond))
+                .truncatingRemainder(dividingBy: min(duration, Double(playback.duration)))
             let result = try await generator.image(at: CMTime(seconds: time, preferredTimescale: 600))
             let image = result.image
             var pixels = [UInt8](repeating: 0, count: width * height * channels)
@@ -75,7 +77,7 @@ struct VideoConverter {
                     decode: nil, shouldInterpolate: false, intent: .defaultIntent) else { throw Failure.noVideo }
             return try ImportedVideo.pngData(image)
         }
-        let video = ImportedVideo(version: 2, id: UUID(), title: String(title.prefix(200)), fonts: [], frames: pngs)
+        let video = ImportedVideo(version: 4, id: UUID(), title: String(title.prefix(200)), fonts: [], frames: pngs, playback: playback)
         try video.validate()
         return video
     }

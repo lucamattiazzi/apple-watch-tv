@@ -35,19 +35,19 @@
         }
       }
     },
-    "30 frames ready for widgets.": {
+    "Video ready for widgets.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "30 frames ready for widgets."
+            "value": "Video ready for widgets."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "30 fotogrammi pronti per i widget."
+            "value": "Video pronto per i widget."
           }
         }
       }
@@ -137,19 +137,19 @@
         }
       }
     },
-    "Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved.": {
+    "Choose a video. The first 60 seconds become a loop at 2 fps. Shorter videos repeat; the aspect ratio is preserved.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose a video. The first 30 seconds become a loop at 1 fps. Shorter videos repeat; the aspect ratio is preserved."
+            "value": "Choose a video. The first 60 seconds become a loop at 2 fps. Shorter videos repeat; the aspect ratio is preserved."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scegli un video. I primi 30 secondi diventano un loop a 1 fps. I video più brevi si ripetono; le proporzioni vengono mantenute."
+            "value": "Scegli un video. I primi 60 secondi diventano un loop a 2 fps. I video più brevi si ripetono; le proporzioni vengono mantenute."
           }
         }
       }
@@ -511,19 +511,19 @@
         }
       }
     },
-    "Preparing 30 frames…": {
+    "Preparing video frames…": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Preparing 30 frames…"
+            "value": "Preparing video frames…"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Preparazione dei 30 fotogrammi…"
+            "value": "Preparazione dei fotogrammi…"
           }
         }
       }
@@ -1004,36 +1004,50 @@
         }
       }
     },
-    "Choose Orbita, Ingranaggi, Tennis, Pong or Acquario directly on your Watch. All five animations are included.": {
+    "Choose Isola deserta, Orbita, Acquario, Ingranaggi or Labirinto 3D directly on your Watch. Each is available in B/W and color.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose Orbita, Ingranaggi, Tennis, Pong or Acquario directly on your Watch. All five animations are included."
+            "value": "Choose Isola deserta, Orbita, Acquario, Ingranaggi or Labirinto 3D directly on your Watch. Each is available in B/W and color."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scegli Orbita, Ingranaggi, Tennis, Pong o Acquario direttamente sul Watch. Tutte e cinque le animazioni sono incluse."
+            "value": "Scegli Isola deserta, Orbita, Acquario, Ingranaggi o Labirinto 3D direttamente sul Watch. Ognuna è disponibile in bianco e nero e a colori."
           }
         }
       }
     },
-    "Your active video: an included animation or your own video from iPhone. 30 seconds at 1 fps.": {
+    "B/W": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "B/W" } },
+        "it": { "stringUnit": { "state": "translated", "value": "B/N" } }
+      }
+    },
+    "Included video style": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Included video style" } },
+        "it": { "stringUnit": { "state": "translated", "value": "Stile dei video inclusi" } }
+      }
+    },
+    "Your active video: an included screensaver or your own video from iPhone. Up to 60 seconds at 2 fps.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your active video: an included animation or your own video from iPhone. 30 seconds at 1 fps."
+            "value": "Your active video: an included screensaver or your own video from iPhone. Up to 60 seconds at 2 fps."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Il video attivo: un’animazione inclusa o un tuo video da iPhone. 30 secondi a 1 fps."
+            "value": "Il video attivo: uno screensaver incluso o un tuo video da iPhone. Fino a 60 secondi a 2 fps."
           }
         }
       }
