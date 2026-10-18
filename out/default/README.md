@@ -1,17 +1,16 @@
 # Orbita
 
-Animazione originale di TV Watch: un pianeta, un satellite in orbita e un
-paesaggio geometrico. Durata 30 secondi, 1 fps, sei livelli di grigio, senza audio.
+TV Watch's original animation: a planet, an orbiting satellite and a geometric
+landscape. A silent 30-second loop at 1 fps, with six shades of grey.
 
-Tutte le immagini sono generate da `scripts/generate_default_video.py` usando
-forme geometriche; non incorpora fotografie, filmati, musica o caratteri
-provenienti da opere esterne. Il sorgente permette di rigenerare il video
-`orbita.mp4` e i tre font `DefaultFull/Top/Bottom.ttf` inclusi nell’app.
+All images are generated from geometry by `scripts/generate_default_video.py`;
+they contain no external photographs, footage, music or typefaces. The script
+regenerates `orbita.mp4` and the three bundled `DefaultFull/Top/Bottom.ttf` fonts.
 
-L’animazione e i relativi fotogrammi sono resi disponibili con
+The animation and its frames are dedicated to the public domain under
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
-Questa dedica riguarda il contenuto dell’animazione, non modifica la licenza
-delle librerie usate per generarlo.
+This dedication covers the animation content and does not change the licenses
+of the libraries used to generate it.
 
-Il riferimento al Seiko TV Watch è un’ispirazione del prodotto TV Watch;
-l’animazione non usa loghi, fotografie o materiale promozionale Seiko.
+The Seiko TV Watch is a historical inspiration for TV Watch; the animation uses
+no Seiko logos, photographs or promotional material.

@@ -1,49 +1,72 @@
 # TV Watch
 
-Un video sul quadrante dell’Apple Watch, ispirato al
-[Seiko TV Watch del 1982](https://museum.seiko.co.jp/en/collections/watch_latestage/collect040/).
+Tiny videos and pixel-art screensavers on your Apple Watch face, inspired by the
+[1982 Seiko TV Watch](https://museum.seiko.co.jp/en/collections/watch_latestage/collect040/).
 
-L’app include **Isola deserta, Orbita, Acquario, Ingranaggi e Labirinto 3D**, cinque animazioni
-originali in pixel art a 2 fps, con palette dedicate per bianco e nero e colori.
-Isola deserta contiene 12 episodi di 30 secondi: pesca, cannocchiale, cocco,
-castello di sabbia, lettura, riposo, messaggio in bottiglia, granchio, cucina,
-gabbiano, pioggia e zattera. Nell’app gli episodi cambiano ogni 30 secondi;
-le complicazioni programmano un episodio diverso ogni 15 minuti, con tempi
-effettivi gestiti da watchOS. Gli altri quattro screensaver ripetono loop di 30 secondi.
-Tutta la grafica è originale, senza immagini o filmati esterni. App a pagamento (0,99 €):
-conversione e invio di video personali inclusi, senza acquisti interni.
-Storia del modello di vendita: [MONETIZATION.md](MONETIZATION.md).
+[Website](https://apps.grokked.it/tv-watch/) · [App Store](https://apps.apple.com/app/id6814760613) · [MIT license](LICENSE)
 
-## Un solo video attivo
+![Orbita, an included TV Watch animation: a tiny planet with an orbiting moon.](docs/media/orbita.gif)
 
-Ogni nuovo invio sostituisce il precedente. Sul Watch **Video inclusi**
-permette di scegliere una delle cinque animazioni incluse e lo stile B/N o colori. Gli aggiornamenti dell’app conservano il video
-personale già caricato. Il video precedente viene eliminato dopo che la nuova
-cache è pronta; non esiste una libreria di video salvati.
+*Orbita in the 1.2 development version. This is the animation itself, not a recording of a physical Watch.*
 
-Tre widget mostrano lo stesso contenuto: **Video intero**, **Video alto** e
-**Video basso**. Per le due metà usare i due spazi rettangolari di Modulare Duo.
-Prima di importare un video, la companion iPhone offre due stili:
+## How it works
 
-- **Seiko**: 128×72 pixel, 8 livelli di grigio, per un aspetto rétro.
-- **Colore**: 256×144 pixel sRGB, per più dettagli e colori.
+WidgetKit does not provide a video player or a continuous animation loop for
+complications. It can, however, display timer text that the system updates even
+when the widget extension is not running.
 
-Entrambi durano 60 secondi, senza audio, a 2 fps (120 fotogrammi). I video più brevi si ripetono;
-le proporzioni vengono conservate con eventuali bande nere. La scelta vale
-per l’importazione successiva. Per cambiare stile al video corrente occorre
-importare nuovamente l’originale. I colori delle complicazioni dipendono anche
-dalla modalità di rendering e dalle impostazioni del quadrante.
+TV Watch stacks opaque image frames and masks each one with timer text drawn
+using a bundled custom font. The font turns the timer into a solid rectangle or
+an empty glyph, revealing frames in sequence. Staggering the timers by half a
+second targets 2 fps: their one-second visibility windows overlap, with newer
+opaque frames on top. It does not require a WidgetKit timeline entry per frame.
 
-App iPhone, app Watch e widget seguono le lingue preferite del dispositivo:
-italiano e inglese sono inclusi, con inglese come lingua di riserva.
-Le traduzioni, comprese le etichette VoiceOver e i messaggi di stato, sono in
-`WatchTV/Shared/Localizable.xcstrings`. TV Watch, Orbita e i nomi dei file
-personali non vengono tradotti.
+The renderer is in [StackedVideo.swift](WatchTV/Shared/StackedVideo.swift); the font
+generator is [generate_timer_fonts.py](scripts/generate_timer_fonts.py).
+watchOS still controls redraw timing, widget refreshes and Always-On behaviour.
+The new 2 fps path has rendering and conversion tests; its cadence and battery
+impact on a physical Watch have not been verified.
 
-## Sviluppo
+## What you can do
 
-Aprire `WatchTV/WatchTV.xcodeproj`, schema **FontTV**. Target: companion iPhone,
-app Watch ed estensione WidgetKit. Deployment minimo: iOS 17 e watchOS 10.
+- Play a video in a compatible rectangular complication, or split it across the
+  two rectangular slots of **Modular Duo** using **Top video** and **Bottom video**.
+- Choose a clip from Photos or Files on your iPhone, convert it locally and send
+  it to your paired Watch. One video is active at a time; a new transfer replaces it.
+- Import in **Seiko** mode (128×72 pixels, eight shades of grey) or **Color** mode
+  (256×144 pixels, sRGB). Playback is silent; shorter clips repeat and aspect ratio
+  is preserved with letterboxing when needed.
+- Switch back to an included animation on the Watch. The app and complications
+  support English and Italian.
+
+**App Store: 1.1 (24).** Includes Orbita, Gears, Tennis, Pong and Aquarium, with
+30-second loops at 1 fps. The app costs €0.99 in Italy (or local equivalent), once;
+personal video conversion and transfer are included. No in-app purchases,
+subscriptions, ads or account.
+
+**This checkout: 1.2 (27).** Adds imports up to 60 seconds at a target 2 fps and
+redesigned screensavers in colour and monochrome: Castaway, Orbita, Aquarium,
+Gears and 3D Maze. Castaway has twelve 30-second episodes. The Watch app changes
+episodes every 30 seconds; complications request a new episode every 15 minutes,
+subject to watchOS scheduling. This version is on TestFlight, not the App Store.
+
+Conversion and storage stay on your devices. Videos are transferred to the paired
+Watch, not uploaded to a developer-operated server. The app adds complications
+to existing watch faces; it does not install a new watch face or stream television.
+
+## Build
+
+Requires macOS, Xcode with iOS/watchOS SDKs (tested with Xcode 26.6), and deployment
+targets iOS 17 and watchOS 10. Fonts, icons and animation packages are included;
+Python and ffmpeg are only needed to regenerate assets.
+
+The legacy 30-frame renderer currently uses the private `1fps-widget` 0.1.0 Swift
+package. Building this checkout requires access to that dependency.
+
+Open `WatchTV/WatchTV.xcodeproj` and select the **FontTV** scheme. `FontTV` is a
+legacy internal build name; the product name is **TV Watch**. The repository URL
+remains `apple-watch-tv` to preserve existing links; the current App Store listing
+is titled **TV Watch S**.
 
 ```sh
 xcodebuild build -project WatchTV/WatchTV.xcodeproj -scheme FontTV \
@@ -51,60 +74,31 @@ xcodebuild build -project WatchTV/WatchTV.xcodeproj -scheme FontTV \
   -derivedDataPath distribution/DerivedData CODE_SIGNING_ALLOWED=NO
 ```
 
-- [Origine e licenza dell’animazione](out/default/README.md).
+For a device build, create `WatchTV/Signing.local.xcconfig` with
+`DEVELOPMENT_TEAM = YOUR_TEAM_ID`. This file is ignored by Git. Configure bundle
+identifiers and an App Group belonging to your team, keeping them consistent
+across the three targets, their entitlements and `ImportedVideo.swift`.
 
-Il repository contiene il progetto corrente, senza i prototipi precedenti.
-I font, i dieci pacchetti delle animazioni e le icone necessari alla compilazione sono già inclusi:
-Python e `ffmpeg` servono solo per rigenerare gli asset. La compilazione richiede
-macOS e Xcode con gli SDK iOS e watchOS (verificata con Xcode 26.6).
+Archives, signing credentials, provisioning profiles and personal Xcode settings
+are excluded from this repository.
 
-### Firma per dispositivi e distribuzione
-
-Creare `WatchTV/Signing.local.xcconfig` e impostare `DEVELOPMENT_TEAM` con il
-proprio team Apple Developer. Il file è escluso da Git e viene caricato
-automaticamente dal progetto; non è necessario per compilare senza firma.
-Per un proprio account configurare inoltre identificativi bundle e App Group
-disponibili per quel team, mantenendoli coerenti tra i tre target, gli
-entitlement e `ImportedVideo.swift`.
-
-Archivi, log, credenziali, profili di provisioning, impostazioni personali di
-firma e documenti operativi dello Store restano locali. La sorgente corrente
-include la correzione di Orbita e le due modalità di conversione successive alla build 19;
-non è una copia byte per byte del pacchetto inviato allo Store.
-
-## Asset
+## Regenerate assets
 
 ```sh
 uv sync --dev
-uv run python scripts/generate_default_video.py
+uv run python scripts/generate_default_video.py   # original Orbita and legacy fonts; needs ffmpeg
+uv run python scripts/generate_timer_fonts.py    # fixed 30/60-second timer masks
+uv run python scripts/generate_included_videos.py # included animations and previews; needs ffmpeg
 ```
 
-Il primo comando di generazione richiede `ffmpeg` e produce il video di
-riferimento `out/default/orbita.mp4`, un’anteprima e i tre font incorporati.
-Il secondo genera le maschere fisse dei widget. `make_icon.py` rigenera l’icona.
+`make_icon.py` generates the app icons. Older video packages retain their original
+timing and remain supported; new imports contain 120 PNG frames for a 60-second loop.
 
-Le nuove importazioni contengono 30 PNG convertite direttamente sull’iPhone,
-senza un font specifico per il video. Il Watch le salva nella cache condivisa;
-i widget le mostrano con maschere a font fisso. I pacchetti precedenti con
-font e Orbita restano supportati e vengono rasterizzati sul Watch. I timer sfalsati mostrano un solo frame per secondo. Prima del primo
-avvio dell’app, i widget possono mostrare direttamente il font incorporato
-con Orbita. Il font di un video importato non entra nella vista del widget.
+## License and credits
 
-Il ridisegno in Always-On e i ricaricamenti restano controllati da watchOS.
-Non sono presenti streaming, server, widget diagnostici o sonde di debug.
-Gli archivi di distribuzione e i backup locali sono esclusi da Git.
+The code is available under the [MIT license](LICENSE).
+The original included animation content is dedicated to the public domain under
+[CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see [asset provenance](ASSETS.md).
+Dependencies retain their own licenses.
 
-## Shared complication renderer
-
-New screensavers and imports use `WatchTV/Shared/StackedVideo.swift`, adapted from
-AniWeather's stacked opaque frames. System timer text and bundled 30/60-second
-masks reveal two frames per second, with frame-zero fallback and a separate
-last-second group to handle delayed timer updates. Full/Top/Bottom share the
-same wall-clock phase; the half-height masks preserve Modular Duo geometry.
-
-Version-4 packages carry playback timing. Imports contain 120 PNGs for a
-60-second loop; stock episodes contain 60 PNGs for 30 seconds. Version 1–3
-packages retain their original timing. The pinned `1fps-widget` 0.1.0 package
-continues rendering older 30-frame loops. One episode per widget timeline
-bounds image memory. WidgetKit controls story refresh and Always-On behavior;
-physical-Watch validation is required for the new two-fps path.
+TV Watch is an independent project, not affiliated with or endorsed by Seiko or Apple.
