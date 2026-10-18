@@ -25,7 +25,7 @@ TITLES = {
 CHOSEN_VARIANTS = {'naufrago': 'giorno', 'orbita': 'terra', 'acquario': 'stagno', 'ingranaggi': 'progetto'}
 STYLES = ('bw', 'color')
 FPS = 2
-IDS = {(name, style): f'9F300003-0000-4000-8000-{index:012d}'
+IDS = {(name, style): f'9F300004-0000-4000-8000-{index:012d}'
        for index, (name, style) in enumerate(
            ((name, style) for name in TITLES for style in STYLES), 1)}
 

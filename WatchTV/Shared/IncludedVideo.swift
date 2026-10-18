@@ -27,7 +27,7 @@ enum IncludedVideo: String, CaseIterable, Identifiable {
         case .labirinto: firstIndex = 9
         }
         let index = firstIndex + (style == .color ? 1 : 0)
-        return UUID(uuidString: String(format: "9F300003-0000-4000-8000-%012d", index))!
+        return UUID(uuidString: String(format: "9F300004-0000-4000-8000-%012d", index))!
     }
     func isSelected(_ video: ImportedVideo?, style: IncludedVideoStyle) -> Bool {
         guard let video else { return false }
@@ -43,13 +43,21 @@ enum IncludedVideo: String, CaseIterable, Identifiable {
         return video
     }
     /// Upgrade shipped stock artwork while preserving every personal import.
+    static func loadInitialVideo(in store: ImportedVideoStore, bundledDirectory: URL = Bundle.main.resourceURL!) throws -> ImportedVideo {
+        let current = try store.loadInitialVideo(bundledDirectory: bundledDirectory)
+        guard let updated = try refreshed(current, directory: bundledDirectory) else { return current }
+        try store.install(updated)
+        return updated
+    }
+
+    /// Upgrade shipped stock artwork while preserving every personal import.
     static func refreshed(_ video: ImportedVideo, directory: URL = Bundle.main.resourceURL!) throws -> ImportedVideo? {
         if video.id == ImportedVideo.bundledID { return try orbita.load(style: .bw, directory: directory) }
         for included in allCases {
             for style in IncludedVideoStyle.allCases {
                 let current = included.videoID(style: style).uuidString
-                let previousIDs = ["9F300001", "9F300002"].map {
-                    current.replacingOccurrences(of: "9F300003", with: $0)
+                let previousIDs = ["9F300001", "9F300002", "9F300003"].map {
+                    current.replacingOccurrences(of: "9F300004", with: $0)
                 }
                 if previousIDs.contains(video.id.uuidString) { return try included.load(style: style, directory: directory) }
             }

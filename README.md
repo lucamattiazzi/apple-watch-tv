@@ -44,7 +44,7 @@ impact on a physical Watch have not been verified.
 personal video conversion and transfer are included. No in-app purchases,
 subscriptions, ads or account.
 
-**This checkout: 1.2 (27).** Adds imports up to 60 seconds at a target 2 fps and
+**This checkout: 1.2 (29).** Adds imports up to 60 seconds at a target 2 fps and
 redesigned screensavers in colour and monochrome: Castaway, Orbita, Aquarium,
 Gears and 3D Maze. Castaway has twelve 30-second episodes. The Watch app changes
 episodes every 30 seconds; complications request a new episode every 15 minutes,
@@ -95,6 +95,14 @@ uv run python scripts/generate_included_videos.py # included animations and prev
 timing and remain supported; new imports contain 120 PNG frames for a 60-second loop.
 
 ## License and credits
+
+The timer-and-font animation technique predates TV Watch. See Bryce Bostwick's
+[WidgetAnimation](https://github.com/brycebostwick/WidgetAnimation) and
+[Apple's Widget Backdoor](https://bryce.co/widget-animations/), including the use
+of staggered timers for sub-second frames. An Apple engineer also suggested
+custom glyphs with a SwiftUI timer in a
+[2023 developer-forum answer](https://developer.apple.com/forums/thread/720640?answerId=744938022#744938022).
+TV Watch applies the idea to watchOS complications and user-selected videos.
 
 The code is available under the [MIT license](LICENSE).
 The original included animation content is dedicated to the public domain under

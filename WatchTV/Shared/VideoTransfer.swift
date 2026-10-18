@@ -21,13 +21,7 @@ final class VideoTransfer: NSObject, ObservableObject, WCSessionDelegate {
         #if os(watchOS)
         do {
             guard let store = ImportedVideoStore.shared else { throw ImportedVideo.Failure.unavailableStorage }
-            let current = try store.loadInitialVideo()
-            if let updated = try IncludedVideo.refreshed(current) {
-                try store.install(updated)
-                receivedVideo = updated
-            } else {
-                receivedVideo = current
-            }
+            receivedVideo = try IncludedVideo.loadInitialVideo(in: store)
         } catch { status = error.localizedDescription }
         refreshWidgets()
         #endif

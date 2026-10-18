@@ -25,7 +25,7 @@ final class PhoneVideoModel: ObservableObject {
 
     init() {
         do {
-            video = try store.loadInitialVideo()
+            video = try IncludedVideo.loadInitialVideo(in: store)
         } catch { self.error = error.localizedDescription }
     }
     func select(_ included: IncludedVideo, style: IncludedVideoStyle) {

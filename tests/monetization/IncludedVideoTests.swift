@@ -14,10 +14,16 @@ struct IncludedVideoTests {
                 let video = try included.load(style: style, directory: directory)
                 precondition(video.title == included.title)
                 precondition(IncludedVideo.contains(video))
-                let oldID = UUID(uuidString: video.id.uuidString.replacingOccurrences(of: "9F300003", with: "9F300002"))!
-                let old = ImportedVideo(version: video.version, id: oldID, title: video.title, fonts: [], frames: video.frames, playback: video.playback)
-                let replacement = try IncludedVideo.refreshed(old, directory: directory)
-                precondition(replacement?.id == video.id)
+                for namespace in ["9F300001", "9F300002", "9F300003"] {
+                    let oldID = UUID(uuidString: namespace + video.id.uuidString.dropFirst(8))!
+                    let old = ImportedVideo(version: video.version, id: oldID, title: video.title, fonts: [], frames: video.frames, playback: video.playback)
+                    let replacement = try IncludedVideo.refreshed(old, directory: directory)
+                    precondition(replacement?.id == video.id)
+                    try store.install(old)
+                    let initial = try IncludedVideo.loadInitialVideo(in: store, bundledDirectory: directory)
+                    precondition(initial.id == video.id)
+                    precondition(store.current()?.id == video.id)
+                }
                 precondition(included.isSelected(video, style: style))
                 precondition(ids.insert(video.id).inserted)
                 let frames = try video.renderWidgetFrames()
@@ -42,9 +48,14 @@ struct IncludedVideoTests {
                 print("PASS: \(included.title) \(style.rawValue) decode, install and widget cache")
             }
         }
-        let custom = ImportedVideo(id: UUID(), title: "Custom", fonts: [])
+        let template = try IncludedVideo.orbita.load(style: .bw, directory: directory)
+        let custom = ImportedVideo(version: template.version, id: UUID(), title: "Custom", fonts: [],
+                                   frames: template.frames, playback: template.playback)
         precondition(!IncludedVideo.contains(custom))
         let unchanged = try IncludedVideo.refreshed(custom, directory: directory)
         precondition(unchanged == nil)
+        try store.install(custom)
+        let initialCustom = try IncludedVideo.loadInitialVideo(in: store, bundledDirectory: directory)
+        precondition(initialCustom.id == custom.id)
     }
 }
