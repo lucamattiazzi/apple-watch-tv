@@ -9,8 +9,10 @@ import subprocess
 from PIL import Image, ImageDraw
 try:
     from .screensaver_art import ACTIONS, render
+    from . import screensaver_variants
 except ImportError:
     from screensaver_art import ACTIONS, render
+    import screensaver_variants
 
 TITLES = {
     'naufrago': 'Isola deserta',
@@ -19,6 +21,8 @@ TITLES = {
     'ingranaggi': 'Ingranaggi',
     'labirinto': 'Labirinto 3D',
 }
+# Redesigns picked from screensaver_variants; screensavers not listed keep screensaver_art.
+CHOSEN_VARIANTS = {'naufrago': 'giorno', 'orbita': 'terra', 'acquario': 'stagno', 'ingranaggi': 'progetto'}
 STYLES = ('bw', 'color')
 FPS = 2
 IDS = {(name, style): f'9F300003-0000-4000-8000-{index:012d}'
@@ -30,6 +34,10 @@ IDS = {(name, style): f'9F300003-0000-4000-8000-{index:012d}'
 def make_frames(name, start=0, style='bw', episode=0):
     if name not in TITLES or style not in STYLES or not 0 <= episode < (len(ACTIONS) if name == 'naufrago' else 1):
         raise ValueError((name, style, episode))
+    variant = CHOSEN_VARIANTS.get(name)
+    if variant:
+        return [screensaver_variants.render(name, variant, start + index / FPS, style, episode)
+                for index in range(30 * FPS)]
     return [render(name, start + index / FPS, style, episode) for index in range(30 * FPS)]
 
 

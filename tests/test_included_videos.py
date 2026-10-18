@@ -8,6 +8,16 @@ class IncludedVideosTests(unittest.TestCase):
                                   'acquario': 'Acquario', 'ingranaggi': 'Ingranaggi',
                                   'labirinto': 'Labirinto 3D'})
 
+    def test_uses_chosen_redesigns(self):
+        from scripts import screensaver_art, screensaver_variants
+        chosen = {'naufrago': 'giorno', 'orbita': 'terra', 'acquario': 'stagno', 'ingranaggi': 'progetto'}
+        for style in ('color', 'bw'):
+            for name, variant in chosen.items():
+                self.assertEqual(make_frames(name, style=style)[7].tobytes(),
+                                 screensaver_variants.render(name, variant, 3.5, style).tobytes())
+            self.assertEqual(make_frames('labirinto', style=style)[7].tobytes(),
+                             screensaver_art.render('labirinto', 3.5, style).tobytes())
+
     def test_castaway_has_twelve_distinct_vignettes_and_quiet_boundaries(self):
         self.assertEqual(len(ACTIONS), 12)
         for style in ('color', 'bw'):
